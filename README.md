@@ -1,8 +1,9 @@
 # MiniMock
 
 
+<img width="1919" height="969" alt="image" src="https://github.com/user-attachments/assets/4aba082a-c0aa-4a74-b590-c6b43fb7914f" />
 
-<img width="1919" height="970" alt="image" src="https://github.com/user-attachments/assets/00bc53d3-3e1f-435a-a7b1-62d17e4f6a4c" />
+
 
 > **Instant chat mockups. No data saved. No watermark. Easy to use.**
 
