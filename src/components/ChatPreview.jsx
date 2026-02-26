@@ -48,8 +48,7 @@ const ChatPreview = forwardRef(function ChatPreview(
             <StatusBar
               time={appearance.statusBarTime}
               battery={appearance.battery}
-              theme={theme}
-              isDark={isDark}
+              headerBg={isDark ? theme.headerBgDark : theme.headerBg}
             />
           )}
           {appearance.showHeader && (
@@ -63,10 +62,12 @@ const ChatPreview = forwardRef(function ChatPreview(
             />
           )}
           <div className="preview-messages">
-            {messages.map((msg) => (
+            {messages.map((msg, index) => (
               <ChatBubble
                 key={msg.id}
                 message={msg}
+                messages={messages}
+                index={index}
                 people={people}
                 theme={theme}
                 isDark={isDark}

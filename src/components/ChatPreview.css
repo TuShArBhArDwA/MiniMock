@@ -88,8 +88,10 @@
     transform: translateY(0);
 }
 
-/* Discord-style messages (no bubbles) */
+/* Discord/Slack: flat layout — no extra container padding */
 [data-platform="discord"] .preview-messages,
 [data-platform="slack"] .preview-messages {
     gap: 0;
+    padding-left: 0;
+    padding-right: 0;
 }

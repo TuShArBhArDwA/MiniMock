@@ -1,9 +1,10 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { toPng } from 'html-to-image'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Editor from './components/Editor'
 import ChatPreview from './components/ChatPreview'
+import DownloadModal from './components/DownloadModal'
 import platformThemes from './themes/platformThemes'
 
 const defaultPeople = [
@@ -84,6 +85,7 @@ function App() {
   const [groupData, setGroupData] = useState({ name: 'Group Chat', avatar: null })
   const [people, setPeople] = useState(defaultPeople)
   const [messages, setMessages] = useState(defaultMessages)
+  const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [appearance, setAppearance] = useState({
     darkMode: false,
     transparentBg: false,
@@ -98,18 +100,70 @@ function App() {
 
   const previewRef = useRef(null)
   const theme = platformThemes[platform]
+  const [editorWidth, setEditorWidth] = useState(380)
+  const isDragging = useRef(false)
 
-  const handleDownload = useCallback(async () => {
+  const handleMouseDown = useCallback((e) => {
+    e.preventDefault()
+    isDragging.current = true
+    document.body.style.cursor = 'col-resize'
+    document.body.style.userSelect = 'none'
+  }, [])
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isDragging.current) return
+      const newWidth = Math.min(Math.max(e.clientX, 280), 600)
+      setEditorWidth(newWidth)
+    }
+    const handleMouseUp = () => {
+      if (isDragging.current) {
+        isDragging.current = false
+        document.body.style.cursor = ''
+        document.body.style.userSelect = ''
+      }
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [])
+
+  const handleDownload = useCallback(async (fileName) => {
     if (!previewRef.current) return
     try {
-      const dataUrl = await toPng(previewRef.current, {
+      const el = previewRef.current
+
+      // Override frame styles via inline (no class removal = no visual flash)
+      const savedBorder = el.style.border
+      const savedShadow = el.style.boxShadow
+      const savedRadius = el.style.borderRadius
+      el.style.border = 'none'
+      el.style.boxShadow = 'none'
+      el.style.borderRadius = '0'
+
+      // Hide scrollbar
+      const messagesEl = el.querySelector('.preview-messages')
+      const savedOverflow = messagesEl ? messagesEl.style.overflow : ''
+      if (messagesEl) messagesEl.style.overflow = 'hidden'
+
+      const dataUrl = await toPng(el, {
         quality: 1,
         pixelRatio: 3,
         cacheBust: true,
         backgroundColor: appearance.transparentBg ? undefined : null,
       })
+
+      // Restore everything instantly
+      el.style.border = savedBorder
+      el.style.boxShadow = savedShadow
+      el.style.borderRadius = savedRadius
+      if (messagesEl) messagesEl.style.overflow = savedOverflow
+
       const link = document.createElement('a')
-      link.download = `minimock-${platform}-chat.png`
+      link.download = `${fileName || `minimock-${platform}-chat`}.png`
       link.href = dataUrl
       link.click()
     } catch (err) {
@@ -121,20 +175,25 @@ function App() {
     <div className="app" data-theme={appTheme}>
       <Navbar appTheme={appTheme} setAppTheme={setAppTheme} />
       <div className="app-main">
-        <Editor
-          platform={platform}
-          setPlatform={setPlatform}
-          chatType={chatType}
-          setChatType={setChatType}
-          groupData={groupData}
-          setGroupData={setGroupData}
-          people={people}
-          setPeople={setPeople}
-          messages={messages}
-          setMessages={setMessages}
-          appearance={appearance}
-          setAppearance={setAppearance}
-        />
+        <div style={{ width: editorWidth, flexShrink: 0 }}>
+          <Editor
+            platform={platform}
+            setPlatform={setPlatform}
+            chatType={chatType}
+            setChatType={setChatType}
+            groupData={groupData}
+            setGroupData={setGroupData}
+            people={people}
+            setPeople={setPeople}
+            messages={messages}
+            setMessages={setMessages}
+            appearance={appearance}
+            setAppearance={setAppearance}
+          />
+        </div>
+        <div className="resize-handle" onMouseDown={handleMouseDown}>
+          <div className="resize-handle-line" />
+        </div>
         <ChatPreview
           ref={previewRef}
           theme={theme}
@@ -143,10 +202,16 @@ function App() {
           messages={messages}
           appearance={appearance}
           chatType={chatType}
-          onDownload={handleDownload}
+          onDownload={() => setShowDownloadModal(true)}
         />
       </div>
       <Footer />
+      <DownloadModal
+        isOpen={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        onDownload={handleDownload}
+        platform={platform}
+      />
     </div>
   )
 }

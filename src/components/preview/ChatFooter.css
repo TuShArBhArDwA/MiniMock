@@ -1,12 +1,12 @@
 .chat-footer-preview {
-    padding: 8px 12px;
+    padding: 8px 10px;
     flex-shrink: 0;
 }
 
 .chat-footer-inner {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .chat-input-fake {
@@ -27,11 +27,43 @@
 }
 
 .chat-footer-send-circle {
-    width: 40px;
-    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+}
+
+.chat-footer-icon-btn {
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+/* Platform-specific footer tweaks */
+.chat-footer-whatsapp {
+    padding: 6px 6px 6px 4px;
+}
+
+.chat-footer-instagram {
+    padding: 8px 12px;
+}
+
+.chat-footer-discord {
+    padding: 0 16px 20px 16px;
+}
+
+.chat-footer-slack {
+    padding: 8px 16px 16px 16px;
+}
+
+.chat-footer-teams {
+    padding: 8px 16px;
+}
+
+.chat-footer-snapchat {
+    padding: 8px 12px;
+}
+
+.chat-footer-telegram {
+    padding: 6px 8px;
 }

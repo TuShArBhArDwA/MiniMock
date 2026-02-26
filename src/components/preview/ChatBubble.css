@@ -1,4 +1,4 @@
-/* Bubble layout */
+/* ============ Base Bubble Layout ============ */
 .bubble-row {
     display: flex;
     align-items: flex-end;
@@ -12,6 +12,10 @@
 
 .bubble-row.received {
     justify-content: flex-start;
+}
+
+.bubble-row.not-first {
+    margin-top: 1px;
 }
 
 .bubble-avatar-small {
@@ -34,34 +38,37 @@
 }
 
 .bubble {
-    max-width: 70%;
+    max-width: 75%;
     padding: 8px 10px;
     position: relative;
     word-wrap: break-word;
 }
 
 .bubble-sender-name {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     margin-bottom: 2px;
 }
 
 .bubble-text {
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 14.2px;
+    line-height: 1.35;
 }
 
 .bubble-meta {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 4px;
-    margin-top: 2px;
+    gap: 3px;
+    margin-left: 8px;
+    vertical-align: bottom;
+    font-size: 11px;
+    opacity: 0.7;
+    float: right;
+    margin-top: 4px;
 }
 
 .bubble-time {
     font-size: 11px;
-    opacity: 0.8;
 }
 
 .bubble-image {
@@ -71,10 +78,20 @@
     display: block;
 }
 
-/* ============ WhatsApp Tails ============ */
+/* ============ WhatsApp ============ */
+.bubble-whatsapp {
+    padding: 6px 7px 6px 9px;
+    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+}
+
+.bubble-row-whatsapp .bubble-meta {
+    float: right;
+    margin-left: 12px;
+    margin-top: 4px;
+}
+
 .bubble-whatsapp.bubble-tail-sent {
-    border-radius: 8px 0 8px 8px;
-    position: relative;
+    border-radius: 7px 0 7px 7px;
 }
 
 .bubble-whatsapp.bubble-tail-sent::after {
@@ -83,14 +100,13 @@
     top: 0;
     right: -8px;
     width: 8px;
-    height: 12px;
+    height: 13px;
     background: var(--bubble-sent-bg);
     clip-path: polygon(0 0, 0 100%, 100% 0);
 }
 
 .bubble-whatsapp.bubble-tail-received {
-    border-radius: 0 8px 8px 8px;
-    position: relative;
+    border-radius: 0 7px 7px 7px;
 }
 
 .bubble-whatsapp.bubble-tail-received::after {
@@ -99,12 +115,76 @@
     top: 0;
     left: -8px;
     width: 8px;
-    height: 12px;
+    height: 13px;
     background: var(--bubble-received-bg);
     clip-path: polygon(100% 0, 0 0, 100% 100%);
 }
 
-/* ============ Telegram Tails ============ */
+/* ============ Instagram ============ */
+.bubble-row-instagram .bubble {
+    border-radius: 22px;
+    padding: 10px 16px;
+    box-shadow: none;
+}
+
+.bubble-row-instagram .bubble-meta {
+    display: none;
+}
+
+.bubble-row-instagram .bubble-time-outside {
+    font-size: 11px;
+    text-align: center;
+    margin-top: 2px;
+    opacity: 0.4;
+}
+
+/* ============ X (Twitter) ============ */
+.bubble-row-x .bubble {
+    border-radius: 20px 20px 20px 20px;
+    padding: 12px 16px;
+}
+
+.bubble-row-x.sent .bubble {
+    border-radius: 20px 20px 4px 20px;
+}
+
+.bubble-row-x.received .bubble {
+    border-radius: 20px 20px 20px 4px;
+}
+
+.bubble-row-x .bubble-meta {
+    display: none;
+}
+
+.bubble-row-x .bubble-time-outside {
+    font-size: 11px;
+    opacity: 0.4;
+    margin-top: 2px;
+}
+
+/* ============ Snapchat ============ */
+.bubble-row-snapchat .bubble {
+    border-radius: 20px;
+    padding: 10px 16px;
+    box-shadow: none;
+}
+
+.bubble-row-snapchat .bubble-meta {
+    display: none;
+}
+
+/* ============ Telegram ============ */
+.bubble-telegram {
+    padding: 7px 10px 5px 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.bubble-telegram .bubble-meta {
+    float: right;
+    margin-left: 10px;
+    margin-top: 4px;
+}
+
 .bubble-telegram.bubble-tail-sent {
     border-radius: 12px 12px 0 12px;
 }
@@ -113,34 +193,29 @@
     border-radius: 12px 12px 12px 0;
 }
 
-/* ============ Instagram pills ============ */
-.bubble-row-instagram .bubble {
-    border-radius: 22px;
-    padding: 10px 16px;
-}
-
-/* ============ X (Twitter) pills ============ */
-.bubble-row-x .bubble {
-    border-radius: 20px;
-    padding: 10px 16px;
-}
-
-/* ============ Snapchat pills ============ */
-.bubble-row-snapchat .bubble {
-    border-radius: 18px;
-    padding: 10px 14px;
-}
-
-/* ============ Reddit pills ============ */
+/* ============ Reddit ============ */
 .bubble-row-reddit .bubble {
-    border-radius: 16px;
-    padding: 10px 14px;
+    border-radius: 18px;
+    padding: 10px 16px;
+}
+
+.bubble-row-reddit .bubble-meta {
+    float: right;
+    margin-left: 8px;
+    margin-top: 4px;
 }
 
 /* ============ LinkedIn ============ */
 .bubble-row-linkedin .bubble {
-    border-radius: 8px;
+    border-radius: 14px;
     padding: 10px 14px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.bubble-row-linkedin .bubble-meta {
+    float: right;
+    margin-left: 8px;
+    margin-top: 4px;
 }
 
 /* ============ Teams Style ============ */
@@ -198,19 +273,33 @@
     word-wrap: break-word;
 }
 
-/* ============ Flat style (Discord, Slack) ============ */
+.bubble-teams-body .bubble-meta {
+    display: flex;
+    float: none;
+    margin-left: 0;
+    margin-top: 4px;
+    justify-content: flex-end;
+}
+
+/* ============ Flat style — Discord ============ */
 .bubble-flat {
     display: flex;
-    gap: 12px;
-    padding: 6px 0;
+    gap: 16px;
+    padding: 2px 16px;
+    margin: 0;
+}
+
+.bubble-flat:hover {
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .bubble-flat-avatar {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
+    margin-top: 2px;
 }
 
 .bubble-flat-avatar img {
@@ -226,7 +315,7 @@
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 16px;
     border-radius: 50%;
 }
 
@@ -239,12 +328,12 @@
     display: flex;
     align-items: baseline;
     gap: 8px;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 .bubble-flat-name {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .bubble-flat-time {
@@ -252,7 +341,40 @@
 }
 
 .bubble-flat-text {
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 15px;
+    line-height: 1.375;
     word-wrap: break-word;
+}
+
+/* ============ Content Wrapper ============ */
+.bubble-content-wrapper {
+    max-width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+.bubble-row.sent .bubble-content-wrapper {
+    align-items: flex-end;
+}
+
+.bubble-row.received .bubble-content-wrapper {
+    align-items: flex-start;
+}
+
+/* ============ Outside Timestamps ============ */
+.bubble-time-outside {
+    font-size: 10px;
+    margin-top: 2px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.bubble-time-outside.sent {
+    justify-content: flex-end;
+}
+
+.bubble-time-outside.received {
+    justify-content: flex-start;
 }

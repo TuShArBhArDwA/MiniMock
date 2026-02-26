@@ -16,9 +16,9 @@
   --danger: #e74c3c;
   --danger-hover: #c0392b;
   --success: #00b894;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
@@ -42,19 +42,23 @@
   --border-color: #2a2a3e;
   --border-hover: #3a3a4e;
   --accent-light: rgba(108, 92, 231, 0.15);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
-  --shadow-lg: 0 8px 30px rgba(0,0,0,0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
 /* Reset */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 
@@ -70,13 +74,16 @@ body {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--border-color);
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
@@ -112,7 +119,10 @@ body {
 .toggle-slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: var(--border-color);
   border-radius: 24px;
   transition: var(--transition);
@@ -128,14 +138,14 @@ body {
   background: white;
   border-radius: 50%;
   transition: var(--transition);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-.toggle-switch input:checked + .toggle-slider {
+.toggle-switch input:checked+.toggle-slider {
   background: var(--accent);
 }
 
-.toggle-switch input:checked + .toggle-slider::before {
+.toggle-switch input:checked+.toggle-slider::before {
   transform: translateX(20px);
 }
 
@@ -217,6 +227,7 @@ body {
   background: var(--accent);
   color: white;
 }
+
 .btn-primary:hover {
   background: var(--accent-hover);
   transform: translateY(-1px);
@@ -228,6 +239,7 @@ body {
   color: var(--text-secondary);
   border: 1px dashed var(--border-color);
 }
+
 .btn-ghost:hover {
   background: var(--accent-light);
   color: var(--accent);
@@ -238,6 +250,7 @@ body {
   background: transparent;
   color: var(--text-muted);
 }
+
 .btn-danger:hover {
   color: var(--danger);
   background: rgba(231, 76, 60, 0.08);
@@ -257,6 +270,7 @@ body {
   justify-content: center;
   transition: all var(--transition);
 }
+
 .btn-icon:hover {
   background: var(--bg-tertiary);
   color: var(--text-primary);
@@ -275,6 +289,7 @@ body {
   transition: border-color var(--transition);
   outline: none;
 }
+
 .input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-light);
@@ -297,6 +312,7 @@ body {
   cursor: pointer;
   outline: none;
 }
+
 .select:focus {
   border-color: var(--accent);
 }
@@ -357,11 +373,13 @@ textarea.input {
   transition: all var(--transition);
   box-shadow: var(--shadow-md);
 }
+
 .btn-download:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
+
 .btn-download:active {
   transform: translateY(0);
 }
@@ -375,9 +393,43 @@ textarea.input {
   padding: 4px;
   transition: color var(--transition);
 }
+
 .drag-handle:hover {
   color: var(--text-secondary);
 }
+
 .drag-handle:active {
   cursor: grabbing;
+}
+
+/* Resize Handle */
+.resize-handle {
+  width: 6px;
+  flex-shrink: 0;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+  transition: background 0.15s;
+}
+
+.resize-handle:hover,
+.resize-handle:active {
+  background: var(--accent-light);
+}
+
+.resize-handle-line {
+  width: 2px;
+  height: 40px;
+  border-radius: 2px;
+  background: var(--border-color);
+  transition: all 0.15s;
+}
+
+.resize-handle:hover .resize-handle-line {
+  height: 60px;
+  background: var(--accent);
+  width: 3px;
 }

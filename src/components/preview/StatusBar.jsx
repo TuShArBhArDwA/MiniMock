@@ -1,19 +1,31 @@
 import './StatusBar.css'
 
-function StatusBar({ time, battery, theme, isDark }) {
-  // Status bar text/icon color matches the header text so it's readable
-  const textColor = isDark ? (theme.headerTextDark || theme.headerText) : theme.headerText
+// Calculate whether a hex color is light or dark
+function isLightColor(hex) {
+  if (!hex) return false
+  const c = hex.replace('#', '')
+  const r = parseInt(c.substring(0, 2), 16)
+  const g = parseInt(c.substring(2, 4), 16)
+  const b = parseInt(c.substring(4, 6), 16)
+  // Using perceived luminance formula
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+  return luminance > 0.5
+}
+
+function StatusBar({ time, battery, headerBg }) {
+  // Auto detect: light header → black icons, dark header → white icons
+  const textColor = isLightColor(headerBg) ? '#000000' : '#ffffff'
 
   return (
-    <div className="status-bar" style={{ color: textColor }}>
+    <div className="status-bar" style={{ color: textColor, background: headerBg }}>
       <span className="status-time">{time}</span>
       <div className="status-right">
-        {/* Signal */}
-        <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-          <rect x="0" y="8" width="3" height="4" rx="0.5" fill="currentColor"/>
-          <rect x="4" y="5" width="3" height="7" rx="0.5" fill="currentColor"/>
-          <rect x="8" y="2" width="3" height="10" rx="0.5" fill="currentColor"/>
-          <rect x="12" y="0" width="3" height="12" rx="0.5" fill="currentColor"/>
+        {/* Signal bars */}
+        <svg width="17" height="12" viewBox="0 0 17 12" fill="none">
+          <rect x="0" y="8" width="3" height="4" rx="0.5" fill="currentColor" opacity="0.4"/>
+          <rect x="4.5" y="5" width="3" height="7" rx="0.5" fill="currentColor"/>
+          <rect x="9" y="2" width="3" height="10" rx="0.5" fill="currentColor"/>
+          <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="currentColor"/>
         </svg>
         {/* WiFi */}
         <svg width="16" height="12" viewBox="0 0 16 12" fill="none">

@@ -1,34 +1,63 @@
 import {
-  ChevronLeft, Phone, Video, MoreVertical, MoreHorizontal,
-  Search, Pin, Users, Info, Hash, Paperclip, AtSign
+  ChevronLeft, ArrowLeft, Phone, Video, MoreVertical, MoreHorizontal,
+  Search, Pin, Users, Info, Hash, ChevronDown, Bell, Settings,
+  Shield, UserPlus
 } from 'lucide-react'
 import './ChatHeader.css'
 
-// Platform-specific right-side action icons
-function HeaderActions({ platformId }) {
+/* Platform-specific header action icons */
+function HeaderActions({ platformId, chatType }) {
   switch (platformId) {
     case 'whatsapp':
-      return <><Video size={18} /><Phone size={18} /><MoreVertical size={18} /></>
+      return chatType === 'group'
+        ? <><Video size={22} /><ChevronDown size={16} /><MoreVertical size={22} /></>
+        : <><Video size={22} /><Phone size={22} /><MoreVertical size={22} /></>
+
     case 'instagram':
-      return <><Phone size={18} /><Video size={18} /></>
+      return <><Phone size={20} /><Video size={20} /></>
+
     case 'discord':
-      return <><Pin size={18} /><Users size={18} /><Search size={18} /></>
+      return <><Pin size={18} /><Users size={18} /><Search size={18} /><Bell size={18} /></>
+
     case 'x':
-      return <><Info size={18} /></>
+      return <Info size={20} />
+
     case 'teams':
-      return <><Video size={18} /><Phone size={18} /><MoreHorizontal size={18} /></>
+      return <><Video size={20} /><Phone size={20} /><MoreHorizontal size={20} /></>
+
     case 'slack':
       return <><Users size={18} /><Pin size={18} /><MoreVertical size={18} /></>
+
     case 'snapchat':
-      return <><Phone size={18} /><Video size={18} /></>
+      return <><Phone size={20} /><Video size={20} /></>
+
     case 'telegram':
-      return <><Phone size={18} /><MoreVertical size={18} /></>
+      return <><Phone size={20} /><MoreVertical size={20} /></>
+
     case 'reddit':
-      return <><Info size={18} /></>
+      return <Info size={20} />
+
     case 'linkedin':
-      return <><Video size={18} /><MoreHorizontal size={18} /></>
+      return <><Video size={20} /><MoreHorizontal size={20} /></>
+
     default:
       return <><Video size={18} /><Phone size={18} /></>
+  }
+}
+
+/* Platform-specific back button */
+function BackButton({ platformId }) {
+  switch (platformId) {
+    case 'whatsapp':
+      return <ArrowLeft size={24} />
+    case 'instagram':
+      return <ArrowLeft size={24} />
+    case 'telegram':
+      return <ArrowLeft size={24} />
+    case 'snapchat':
+      return <ChevronLeft size={28} style={{ marginLeft: -8 }} />
+    default:
+      return <ChevronLeft size={24} />
   }
 }
 
@@ -44,27 +73,24 @@ function ChatHeader({ theme, isDark, chatType, people, receiver, groupData }) {
   } else {
     if (theme.id === 'whatsapp') {
       statusText = people.map(p => p.name).join(', ')
-    } else if (theme.id === 'discord' || theme.id === 'slack' || theme.id === 'telegram') {
+    } else if (['discord', 'slack', 'telegram', 'teams'].includes(theme.id)) {
       statusText = `${people.length} members`
     } else if (theme.id === 'instagram') {
       statusText = 'Active now'
-    } else if (theme.id === 'teams') {
-      statusText = `${people.length} members`
     } else {
       statusText = ''
     }
   }
 
-  // Discord & Slack use a channel/hash style instead of avatar
   const isChannelStyle = theme.id === 'discord' || theme.id === 'slack'
 
   return (
     <div className={`chat-header chat-header-${theme.id}`} style={{ background: bgColor, color: textColor }}>
       <div className="chat-header-left">
-        {!isChannelStyle && <ChevronLeft size={22} />}
+        {!isChannelStyle && <BackButton platformId={theme.id} />}
         {isChannelStyle ? (
           <div className="chat-header-channel">
-            <Hash size={18} />
+            <Hash size={20} strokeWidth={2.5} />
             <span className="chat-header-name">{name}</span>
           </div>
         ) : (
@@ -81,7 +107,11 @@ function ChatHeader({ theme, isDark, chatType, people, receiver, groupData }) {
             <div className="chat-header-info">
               <span className="chat-header-name">{name}</span>
               {statusText && (
-                <span className="chat-header-status" style={{ opacity: 0.7, fontSize: 11, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '180px' }}>
+                <span className="chat-header-status" style={{
+                  opacity: 0.7, fontSize: 11,
+                  whiteSpace: 'nowrap', overflow: 'hidden',
+                  textOverflow: 'ellipsis', maxWidth: '170px'
+                }}>
                   {statusText}
                 </span>
               )}
@@ -90,7 +120,7 @@ function ChatHeader({ theme, isDark, chatType, people, receiver, groupData }) {
         )}
       </div>
       <div className="chat-header-actions">
-        <HeaderActions platformId={theme.id} />
+        <HeaderActions platformId={theme.id} chatType={chatType} />
       </div>
     </div>
   )
