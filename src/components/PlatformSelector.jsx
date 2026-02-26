@@ -1,18 +1,30 @@
 import { useState } from 'react'
 import { Smartphone, ChevronDown } from 'lucide-react'
+import {
+  IconBrandWhatsapp,
+  IconBrandInstagram,
+  IconBrandDiscordFilled,
+  IconBrandX,
+  IconBrandTeams,
+  IconBrandSlack,
+  IconBrandSnapchat,
+  IconBrandTelegram,
+  IconBrandReddit,
+  IconBrandLinkedin
+} from '@tabler/icons-react'
 import './PlatformSelector.css'
 
 const platforms = [
-  { id: 'whatsapp', name: 'WhatsApp', icon: '💬' },
-  { id: 'instagram', name: 'Instagram', icon: '📷' },
-  { id: 'discord', name: 'Discord', icon: '🎮' },
-  { id: 'x', name: 'X', icon: '𝕏' },
-  { id: 'teams', name: 'Microsoft Teams', icon: '🟪' },
-  { id: 'slack', name: 'Slack', icon: '#️⃣' },
-  { id: 'snapchat', name: 'Snapchat', icon: '👻' },
-  { id: 'telegram', name: 'Telegram', icon: '✈️' },
-  { id: 'reddit', name: 'Reddit', icon: '🤖' },
-  { id: 'linkedin', name: 'LinkedIn', icon: '💼' },
+  { id: 'whatsapp', name: 'WhatsApp', icon: <IconBrandWhatsapp stroke={1.5} size={20} className="platform-icon-svg" /> },
+  { id: 'instagram', name: 'Instagram', icon: <IconBrandInstagram stroke={1.5} size={20} className="platform-icon-svg" /> },
+  { id: 'discord', name: 'Discord', icon: <IconBrandDiscordFilled size={20} className="platform-icon-svg" /> },
+  { id: 'x', name: 'X', icon: <IconBrandX stroke={1.5} size={20} className="platform-icon-svg" /> },
+  { id: 'teams', name: 'Microsoft Teams', icon: <IconBrandTeams stroke={1.5} size={20} className="platform-icon-svg" /> },
+  { id: 'slack', name: 'Slack', icon: <IconBrandSlack stroke={1.5} size={20} className="platform-icon-svg" /> },
+  { id: 'snapchat', name: 'Snapchat', icon: <IconBrandSnapchat stroke={1.5} size={20} className="platform-icon-svg" /> },
+  { id: 'telegram', name: 'Telegram', icon: <IconBrandTelegram stroke={1.5} size={20} className="platform-icon-svg" /> },
+  { id: 'reddit', name: 'Reddit', icon: <IconBrandReddit stroke={1.5} size={20} className="platform-icon-svg" /> },
+  { id: 'linkedin', name: 'LinkedIn', icon: <IconBrandLinkedin stroke={1.5} size={20} className="platform-icon-svg" /> },
 ]
 
 function PlatformSelector({ platform, setPlatform }) {

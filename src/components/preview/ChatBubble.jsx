@@ -23,11 +23,25 @@ function StatusIcon({ status }) {
   return <Check size={14} style={{ color: 'var(--status-sent)' }} />
 }
 
-function ChatBubble({ message, people, theme, isDark, timeFormat }) {
+// Generate a consistent color from a name
+function nameColor(name) {
+  const colors = [
+    '#e17076', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae',
+    '#dda15e', '#a78bfa', '#f472b6', '#34d399', '#fbbf24'
+  ]
+  let hash = 0
+  for (let i = 0; i < (name || '').length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  return colors[Math.abs(hash) % colors.length]
+}
+
+function ChatBubble({ message, people, theme, isDark, timeFormat, chatType }) {
   const sender = people.find(p => p.id === message.senderId)
   const isSent = sender ? (sender.role === 'sender' || sender.id === people[0]?.id) : false
   const isDiscord = theme.isDiscordStyle
   const isSlack = theme.isSlackStyle
+  const platformId = theme.id
 
   const formattedTime = formatTime(message.time, timeFormat)
 
@@ -71,9 +85,59 @@ function ChatBubble({ message, people, theme, isDark, timeFormat }) {
     )
   }
 
+  // Teams-style: flat with avatar + name, but with subtle bg
+  if (platformId === 'teams') {
+    return (
+      <div className={`bubble-teams ${isSent ? 'sent' : 'received'}`}>
+        {!isSent && (
+          <div className="bubble-teams-avatar">
+            {sender?.avatar ? (
+              <img src={sender.avatar} alt={sender?.name} />
+            ) : (
+              <div className="bubble-teams-avatar-ph" style={{ background: '#464775' }}>
+                {(sender?.name || '?').charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
+        )}
+        <div className="bubble-teams-content">
+          {!isSent && (
+            <span className="bubble-teams-name" style={{ color: isDark ? '#c8c6c4' : '#252423' }}>
+              {sender?.name || 'Unknown'}
+            </span>
+          )}
+          <div
+            className="bubble-teams-body"
+            style={{
+              background: isSent ? (isDark ? '#464775' : '#e8ebfa') : (isDark ? '#2d2c31' : '#ffffff'),
+              color: isSent ? (isDark ? '#fff' : '#252423') : (isDark ? '#fff' : '#252423'),
+            }}
+          >
+            {message.image && <img src={message.image} className="bubble-image" alt="" />}
+            <div className="bubble-text">{message.text}</div>
+            <div className="bubble-meta">
+              <span className="bubble-time" style={{ color: 'var(--timestamp-color)' }}>{formattedTime}</span>
+              {isSent && <StatusIcon status={message.status} />}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const showAvatar = theme.showAvatarContext === 'always' || (theme.showAvatarContext === 'group' && chatType === 'group')
+  const showName = theme.showNameContext === 'always' || (theme.showNameContext === 'group' && chatType === 'group')
+  const hasTail = theme.bubbleTail
+
+  // Determine bubble-specific class for tails
+  let bubbleClass = `bubble bubble-${platformId}`
+  if (hasTail) {
+    bubbleClass += isSent ? ' bubble-tail-sent' : ' bubble-tail-received'
+  }
+
   return (
-    <div className={`bubble-row ${isSent ? 'sent' : 'received'}`}>
-      {!isSent && (
+    <div className={`bubble-row bubble-row-${platformId} ${isSent ? 'sent' : 'received'} ${showAvatar && !isSent ? 'has-avatar' : ''}`}>
+      {!isSent && showAvatar && (
         <div className="bubble-avatar-small">
           {sender?.avatar ? (
             <img src={sender.avatar} alt={sender?.name} />
@@ -83,13 +147,18 @@ function ChatBubble({ message, people, theme, isDark, timeFormat }) {
         </div>
       )}
       <div
-        className="bubble"
+        className={bubbleClass}
         style={{
           background: isSent ? 'var(--bubble-sent-bg)' : 'var(--bubble-received-bg)',
           color: isSent ? 'var(--bubble-sent-text)' : 'var(--bubble-received-text)',
           borderRadius: 'var(--bubble-radius)',
         }}
       >
+        {!isSent && showName && (
+           <div className="bubble-sender-name" style={{ color: nameColor(sender?.name) }}>
+             {sender?.name || 'Unknown'}
+           </div>
+        )}
         {message.image && (
           <img src={message.image} className="bubble-image" alt="" />
         )}

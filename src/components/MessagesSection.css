@@ -35,12 +35,44 @@
     color: var(--text-muted);
     flex-shrink: 0;
     overflow: hidden;
+    position: relative;
+    cursor: pointer;
 }
 
 .message-sender-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.avatar-swap-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.message-sender-avatar:hover .avatar-swap-overlay {
+    opacity: 1;
+}
+
+.avatar-hidden-select {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    /* ensure padding and border dont mess up the click area */
+    padding: 0;
+    margin: 0;
+    border: none;
+    appearance: none;
 }
 
 .message-sender-select {

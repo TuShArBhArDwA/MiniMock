@@ -5,9 +5,12 @@
     padding: 8px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
-    margin-bottom: 6px;
     background: var(--bg-secondary);
     transition: box-shadow var(--transition);
+}
+
+.person-card.no-drag {
+    padding-left: 14px;
 }
 
 .person-card:hover {
@@ -71,4 +74,33 @@
 .add-person-btn {
     width: 100%;
     margin-top: 6px;
+}
+
+.add-person-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.add-person-btn-outline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all var(--transition);
+}
+
+.add-person-btn-outline:hover {
+    border-color: var(--text-secondary);
+    background: var(--bg-secondary);
+}
+
+.info-icon {
+    color: var(--text-tertiary);
 }

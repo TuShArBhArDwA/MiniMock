@@ -12,8 +12,26 @@
 .chat-input-fake {
     flex: 1;
     padding: 10px 14px;
-    border-radius: 22px;
     font-size: 14px;
     display: flex;
     align-items: center;
+    gap: 8px;
+}
+
+.chat-input-pill {
+    border-radius: 22px;
+}
+
+.chat-input-rect {
+    border-radius: 8px;
+}
+
+.chat-footer-send-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }

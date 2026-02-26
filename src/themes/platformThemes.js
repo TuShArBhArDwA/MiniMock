@@ -32,6 +32,8 @@ const platformThemes = {
         statusDelivered: '#8696a0',
         statusSent: '#8696a0',
         onlineText: 'online',
+        showAvatarContext: 'group',
+        showNameContext: 'group',
         font: "'Segoe UI', Helvetica, Arial, sans-serif",
     },
     instagram: {
@@ -65,6 +67,8 @@ const platformThemes = {
         statusDelivered: '#8e8e8e',
         statusSent: '#8e8e8e',
         onlineText: 'Active now',
+        showAvatarContext: 'always',
+        showNameContext: 'group',
         font: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     },
     discord: {
@@ -98,6 +102,8 @@ const platformThemes = {
         statusDelivered: '#72767d',
         statusSent: '#72767d',
         onlineText: 'Online',
+        showAvatarContext: 'always',
+        showNameContext: 'always',
         font: "'gg sans', 'Noto Sans', Helvetica, Arial, sans-serif",
         isDiscordStyle: true,
     },
@@ -132,6 +138,8 @@ const platformThemes = {
         statusDelivered: '#536471',
         statusSent: '#536471',
         onlineText: '',
+        showAvatarContext: 'always',
+        showNameContext: 'group',
         font: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     },
     teams: {
@@ -165,6 +173,8 @@ const platformThemes = {
         statusDelivered: '#616161',
         statusSent: '#616161',
         onlineText: 'Available',
+        showAvatarContext: 'always',
+        showNameContext: 'always',
         font: "'Segoe UI', sans-serif",
     },
     slack: {
@@ -198,6 +208,8 @@ const platformThemes = {
         statusDelivered: '#616061',
         statusSent: '#616061',
         onlineText: 'Active',
+        showAvatarContext: 'always',
+        showNameContext: 'always',
         font: "'Lato', 'Slack-Lato', sans-serif",
         isSlackStyle: true,
     },
@@ -232,6 +244,8 @@ const platformThemes = {
         statusDelivered: '#999999',
         statusSent: '#999999',
         onlineText: '',
+        showAvatarContext: 'always',
+        showNameContext: 'group',
         font: "'Avenir Next', 'Helvetica Neue', sans-serif",
     },
     telegram: {
@@ -265,6 +279,8 @@ const platformThemes = {
         statusDelivered: '#7eb98a',
         statusSent: '#7eb98a',
         onlineText: 'online',
+        showAvatarContext: 'group',
+        showNameContext: 'group',
         font: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     },
     reddit: {
@@ -298,6 +314,8 @@ const platformThemes = {
         statusDelivered: '#7c7c7c',
         statusSent: '#7c7c7c',
         onlineText: 'Online',
+        showAvatarContext: 'always',
+        showNameContext: 'always',
         font: "'IBM Plex Sans', 'Noto Sans', Arial, sans-serif",
     },
     linkedin: {
@@ -331,6 +349,8 @@ const platformThemes = {
         statusDelivered: '#666666',
         statusSent: '#666666',
         onlineText: '',
+        showAvatarContext: 'always',
+        showNameContext: 'always',
         font: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     },
 };

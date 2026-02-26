@@ -1,11 +1,11 @@
 import './StatusBar.css'
 
 function StatusBar({ time, battery, theme, isDark }) {
-  const bgColor = isDark ? theme.headerBgDark : theme.headerBg
+  // Status bar text/icon color matches the header text so it's readable
   const textColor = isDark ? (theme.headerTextDark || theme.headerText) : theme.headerText
 
   return (
-    <div className="status-bar" style={{ background: bgColor, color: textColor }}>
+    <div className="status-bar" style={{ color: textColor }}>
       <span className="status-time">{time}</span>
       <div className="status-right">
         {/* Signal */}

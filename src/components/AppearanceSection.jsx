@@ -24,7 +24,7 @@ function AppearanceSection({ appearance, setAppearance }) {
           <div className="form-sublabel">Theme</div>
 
           <div className="form-row">
-            <span className="form-label">Dark mode</span>
+            <span className="form-label">Mockup dark mode</span>
             <label className="toggle-switch">
               <input
                 type="checkbox"

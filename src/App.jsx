@@ -80,6 +80,8 @@ const defaultMessages = [
 function App() {
   const [platform, setPlatform] = useState('whatsapp')
   const [chatType, setChatType] = useState('dm')
+  const [appTheme, setAppTheme] = useState('dark') // 'light' or 'dark'
+  const [groupData, setGroupData] = useState({ name: 'Group Chat', avatar: null })
   const [people, setPeople] = useState(defaultPeople)
   const [messages, setMessages] = useState(defaultMessages)
   const [appearance, setAppearance] = useState({
@@ -116,14 +118,16 @@ function App() {
   }, [platform, appearance.transparentBg])
 
   return (
-    <div className="app" data-theme={appearance.darkMode ? 'dark' : 'light'}>
-      <Navbar />
+    <div className="app" data-theme={appTheme}>
+      <Navbar appTheme={appTheme} setAppTheme={setAppTheme} />
       <div className="app-main">
         <Editor
           platform={platform}
           setPlatform={setPlatform}
           chatType={chatType}
           setChatType={setChatType}
+          groupData={groupData}
+          setGroupData={setGroupData}
           people={people}
           setPeople={setPeople}
           messages={messages}
@@ -134,6 +138,7 @@ function App() {
         <ChatPreview
           ref={previewRef}
           theme={theme}
+          groupData={groupData}
           people={people}
           messages={messages}
           appearance={appearance}

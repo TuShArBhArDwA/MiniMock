@@ -38,8 +38,19 @@
 }
 
 .platform-icon {
-    font-size: 15px;
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: color var(--transition);
+}
+
+.platform-btn:hover .platform-icon {
+    color: var(--accent);
+}
+
+.platform-btn.active .platform-icon {
+    color: white;
 }
 
 .platform-name {

@@ -1,11 +1,11 @@
 import { useState, useRef } from 'react'
-import { ChevronDown, Users, Plus, Trash2, GripVertical, Camera, User } from 'lucide-react'
+import { ChevronDown, Users, Plus, Trash2, GripVertical, Camera, User, Info } from 'lucide-react'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import './PeopleSection.css'
 
-function SortablePerson({ person, onNameChange, onAvatarChange, onRemove, canRemove, roleLabel }) {
+function SortablePerson({ person, onNameChange, onAvatarChange, onRemove, canRemove, hideDrag }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: person.id })
   const fileRef = useRef(null)
 
@@ -23,10 +23,12 @@ function SortablePerson({ person, onNameChange, onAvatarChange, onRemove, canRem
   }
 
   return (
-    <div ref={setNodeRef} style={style} className="person-card">
-      <div className="drag-handle" {...attributes} {...listeners}>
-        <GripVertical size={14} />
-      </div>
+    <div ref={setNodeRef} style={style} className={`person-card ${hideDrag ? 'no-drag' : ''}`}>
+      {!hideDrag && (
+        <div className="drag-handle" {...attributes} {...listeners}>
+          <GripVertical size={14} />
+        </div>
+      )}
       <div className="person-avatar" onClick={() => fileRef.current?.click()}>
         {person.avatar ? (
           <img src={person.avatar} alt={person.name} />
@@ -68,7 +70,7 @@ function PeopleSection({ people, setPeople, chatType }) {
 
   const addPerson = () => {
     const id = `p${Date.now()}`
-    setPeople(prev => [...prev, { id, name: `Person ${prev.length + 1}`, avatar: null, role: 'participant' }])
+    setPeople(prev => [...prev, { id, name: `Person ${prev.length + 1}`, avatar: null, role: 'receiver' }])
   }
 
   const removePerson = (id) => {
@@ -83,9 +85,8 @@ function PeopleSection({ people, setPeople, chatType }) {
     setPeople(prev => prev.map(p => p.id === id ? { ...p, avatar } : p))
   }
 
-  // In DM mode: first person = sender, second = receiver
-  const senderPeople = chatType === 'dm' ? people.filter(p => p.role === 'sender') : []
-  const receiverPeople = chatType === 'dm' ? people.filter(p => p.role === 'receiver') : []
+  const senderPeople = people.filter(p => p.role === 'sender')
+  const receiverPeople = people.filter(p => p.role === 'receiver')
 
   return (
     <div className="section">
@@ -99,23 +100,28 @@ function PeopleSection({ people, setPeople, chatType }) {
       </div>
       {open && (
         <div className="section-content">
-          {chatType === 'dm' ? (
-            <>
-              <div className="form-sublabel">Sender</div>
-              {senderPeople.map(p => (
-                <SortablePerson
-                  key={p.id}
-                  person={p}
-                  onNameChange={updateName}
-                  onAvatarChange={updateAvatar}
-                  onRemove={removePerson}
-                  canRemove={false}
-                />
-              ))}
-              <div className="form-sublabel" style={{ marginTop: 16 }}>
-                Receiver
-                {chatType === 'dm' && <span className="people-count">{receiverPeople.length}</span>}
-              </div>
+          <div className="form-sublabel group-info-label">
+            SENDER <Info size={14} className="info-icon" />
+          </div>
+          {senderPeople.map(p => (
+            <SortablePerson
+              key={p.id}
+              person={p}
+              onNameChange={updateName}
+              onAvatarChange={updateAvatar}
+              onRemove={removePerson}
+              canRemove={false}
+              hideDrag={true}
+            />
+          ))}
+
+          <div className="form-sublabel group-info-label" style={{ marginTop: 20 }}>
+            RECEIVER <Info size={14} className="info-icon" />
+            <span className="people-count">{receiverPeople.length}</span>
+          </div>
+          
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={receiverPeople.map(p => p.id)} strategy={verticalListSortingStrategy}>
               {receiverPeople.map(p => (
                 <SortablePerson
                   key={p.id}
@@ -123,31 +129,20 @@ function PeopleSection({ people, setPeople, chatType }) {
                   onNameChange={updateName}
                   onAvatarChange={updateAvatar}
                   onRemove={removePerson}
-                  canRemove={false}
+                  canRemove={chatType === 'group' && receiverPeople.length > 1}
+                  hideDrag={chatType === 'dm' || receiverPeople.length <= 1}
                 />
               ))}
-            </>
-          ) : (
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-              <SortableContext items={people.map(p => p.id)} strategy={verticalListSortingStrategy}>
-                {people.map((p, i) => (
-                  <SortablePerson
-                    key={p.id}
-                    person={p}
-                    onNameChange={updateName}
-                    onAvatarChange={updateAvatar}
-                    onRemove={removePerson}
-                    canRemove={people.length > 2}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
-          )}
+            </SortableContext>
+          </DndContext>
+
           {chatType === 'group' && (
-            <button className="btn btn-ghost add-person-btn" onClick={addPerson}>
-              <Plus size={14} />
-              Add person
-            </button>
+            <div className="add-person-container">
+              <button className="btn add-person-btn-outline" onClick={addPerson}>
+                <Plus size={14} />
+                Add person
+              </button>
+            </div>
           )}
         </div>
       )}

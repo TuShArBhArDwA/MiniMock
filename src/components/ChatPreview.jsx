@@ -7,7 +7,7 @@ import ChatFooterPreview from './preview/ChatFooter'
 import './ChatPreview.css'
 
 const ChatPreview = forwardRef(function ChatPreview(
-  { theme, people, messages, appearance, chatType, onDownload },
+  { theme, people, groupData, messages, appearance, chatType, onDownload },
   ref
 ) {
   const isDark = appearance.darkMode
@@ -59,6 +59,7 @@ const ChatPreview = forwardRef(function ChatPreview(
               chatType={chatType}
               people={people}
               receiver={receiver}
+              groupData={groupData}
             />
           )}
           <div className="preview-messages">
@@ -70,11 +71,12 @@ const ChatPreview = forwardRef(function ChatPreview(
                 theme={theme}
                 isDark={isDark}
                 timeFormat={appearance.timeFormat}
+                chatType={chatType}
               />
             ))}
           </div>
           {appearance.showFooter && (
-            <ChatFooterPreview theme={theme} isDark={isDark} />
+            <ChatFooterPreview theme={theme} isDark={isDark} chatType={chatType} />
           )}
         </div>
       </div>

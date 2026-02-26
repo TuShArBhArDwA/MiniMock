@@ -9,7 +9,9 @@ const navItems = [
   { label: 'Email', disabled: true },
 ]
 
-function Navbar() {
+import { Moon, Sun } from 'lucide-react'
+
+function Navbar({ appTheme, setAppTheme }) {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
@@ -28,7 +30,15 @@ function Navbar() {
           </button>
         ))}
       </div>
-      <div className="navbar-right" />
+      <div className="navbar-right">
+        <button
+          className="btn-icon"
+          onClick={() => setAppTheme(t => t === 'dark' ? 'light' : 'dark')}
+          title="Toggle app theme"
+        >
+          {appTheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+      </div>
     </nav>
   )
 }

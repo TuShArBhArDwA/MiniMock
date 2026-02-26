@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import {
   ChevronDown, MessageCircle, Plus, Trash2, GripVertical,
-  ImagePlus, Calendar, Clock, User
+  ImagePlus, Calendar, Clock, User, ArrowRightLeft
 } from 'lucide-react'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
@@ -18,6 +18,7 @@ function SortableMessage({ msg, people, onUpdate, onDelete, onImageUpload }) {
   }
 
   const sender = people.find(p => p.id === msg.senderId) || people[0]
+  const isSent = sender.role === 'sender' || sender.id === people[0]?.id
 
   const handleImage = (e) => {
     const file = e.target.files?.[0]
@@ -27,17 +28,38 @@ function SortableMessage({ msg, people, onUpdate, onDelete, onImageUpload }) {
     reader.readAsDataURL(file)
   }
 
+  const handleAvatarSwap = (e) => {
+    if (people.length === 2) {
+      const otherId = people.find(p => p.id !== msg.senderId)?.id
+      if (otherId) onUpdate(msg.id, 'senderId', otherId)
+    }
+  }
+
   return (
     <div ref={setNodeRef} style={style} className="message-card">
       <div className="message-card-top">
         <div className="drag-handle" {...attributes} {...listeners}>
           <GripVertical size={14} />
         </div>
-        <div className="message-sender-avatar">
+        <div className="message-sender-avatar" onClick={handleAvatarSwap}>
           {sender.avatar ? (
             <img src={sender.avatar} alt={sender.name} />
           ) : (
             <User size={12} />
+          )}
+          <div className="avatar-swap-overlay">
+            {people.length === 2 ? <ArrowRightLeft size={10} strokeWidth={3} /> : <ChevronDown size={10} strokeWidth={3} />}
+          </div>
+          {people.length > 2 && (
+            <select
+              className="avatar-hidden-select"
+              value={msg.senderId}
+              onChange={(e) => onUpdate(msg.id, 'senderId', e.target.value)}
+            >
+              {people.map(p => (
+                <option key={p.id} value={p.id}>{p.name}</option>
+              ))}
+            </select>
           )}
         </div>
         <select
@@ -83,15 +105,19 @@ function SortableMessage({ msg, people, onUpdate, onDelete, onImageUpload }) {
         )}
       </div>
       <div className="message-card-bottom">
-        <select
-          className="select message-status-select"
-          value={msg.status}
-          onChange={(e) => onUpdate(msg.id, 'status', e.target.value)}
-        >
-          <option value="sent">Sent</option>
-          <option value="delivered">Delivered</option>
-          <option value="read">Read</option>
-        </select>
+        {isSent ? (
+          <select
+            className="select message-status-select"
+            value={msg.status}
+            onChange={(e) => onUpdate(msg.id, 'status', e.target.value)}
+          >
+            <option value="sent">Sent</option>
+            <option value="delivered">Delivered</option>
+            <option value="read">Read</option>
+          </select>
+        ) : (
+          <div className="message-status-select" style={{ visibility: 'hidden' }}></div>
+        )}
         <button className="btn btn-ghost message-add-image" onClick={() => fileRef.current?.click()}>
           <ImagePlus size={13} />
           Add Image
