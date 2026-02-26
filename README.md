@@ -1,4 +1,4 @@
-# 💬 MiniMock
+# MiniMock
 
 > **Instant chat mockups. No data saved. No watermark. Easy to use.**
 
@@ -8,7 +8,7 @@ Perfect for testing layouts, designing memes, or mocking up conversations for so
 
 ![UI Preview](https://via.placeholder.com/800x400?text=MiniMock+Preview)
 
-## ✨ Features
+## Features
 
 - **10+ Supported Platforms**: WhatsApp, Instagram, Discord, X (Twitter), Microsoft Teams, Slack, Snapchat, Telegram, Reddit, and LinkedIn.
 - **Pixel-Perfect Realism**: Automatic adaptation to each platform's unique UI, including tail shapes, headers, footers, status bars, and font styles.
@@ -19,7 +19,7 @@ Perfect for testing layouts, designing memes, or mocking up conversations for so
 - **Export to PNG**: Instantly download high-quality, watermark-free images of your mockups.
 - **Privacy First**: Everything is processed locally in your browser. No data is stored, and no backend is required.
 
-## 🛠️ Built With
+## Built With
 
 - **React 18** + **Vite**
 - **Vanilla CSS** (No bloated UI frameworks)
@@ -27,7 +27,7 @@ Perfect for testing layouts, designing memes, or mocking up conversations for so
 - **dnd-kit** (Drag and drop interactions)
 - **html-to-image** (High-fidelity PNG exporting)
 
-## 🚀 Getting Started
+## Getting Started
 
 To run MiniMock locally:
 
@@ -53,6 +53,6 @@ To run MiniMock locally:
 
 5. Open your browser to `http://localhost:5173` and start creating mockups!
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
