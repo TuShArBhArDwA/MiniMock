@@ -1,12 +1,15 @@
 # MiniMock
 
+
+
+<img width="1919" height="970" alt="image" src="https://github.com/user-attachments/assets/00bc53d3-3e1f-435a-a7b1-62d17e4f6a4c" />
+
 > **Instant chat mockups. No data saved. No watermark. Easy to use.**
 
 MiniMock is a fast, web-based generator that allows you to create pixel-perfect, fake chat screenshots for various popular messaging platforms. It features a live, responsive preview—what you configure on the left is exactly what you get on the right. 
 
 Perfect for testing layouts, designing memes, or mocking up conversations for social media!
 
-![UI Preview](https://via.placeholder.com/800x400?text=MiniMock+Preview)
 
 ## Features
 
