@@ -1,0 +1,353 @@
+/* ===== AI Preview Component Styles ===== */
+
+.preview-phone {
+    background: var(--chat-bg);
+}
+
+/* Header */
+.ai-header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    background: var(--header-bg);
+    color: var(--header-text);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.ai-header.dark {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Footer */
+.ai-footer {
+    padding: 12px 16px 20px;
+    background: var(--footer-bg);
+    border-top: 1px solid var(--border-color);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ai-footer.dark {
+    border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+.ai-input-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 24px;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+}
+
+.ai-input-container.dark {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Specific Platform Inputs */
+.ai-input-container.chatgpt {
+    border-radius: 26px;
+    padding: 10px 14px;
+    border: none;
+}
+
+.ai-input-container.claude {
+    border-radius: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+}
+
+.ai-input-container.claude.dark {
+    border-color: #3A3935;
+}
+
+.ai-input-container.gemini {
+    border-radius: 32px;
+    padding: 12px 16px;
+    border: none;
+}
+
+.ai-input-container.grok {
+    border-radius: 16px;
+    padding: 10px 16px;
+    border: none;
+}
+
+.ai-input-container.perplexity {
+    border-radius: 20px;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+}
+
+.ai-input-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ai-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 15px;
+    padding: 8px 0;
+    outline: none;
+}
+
+.ai-btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+
+.ai-send-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.minimock-watermark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    gap: 4px;
+}
+
+.remove-link {
+    color: var(--accent);
+    text-decoration: none;
+    margin-left: auto;
+}
+
+/* Bubbles */
+.ai-messages {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ai-bubble-row {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ai-bubble-row.user {
+    align-items: flex-end;
+}
+
+.user-content {
+    background: var(--user-bg);
+    color: var(--user-text);
+    padding: 12px 18px;
+    border-radius: 24px;
+    max-width: 85%;
+    font-size: 15px;
+    line-height: 1.45;
+    word-wrap: break-word;
+}
+
+.ai-bubble-row.assistant {
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* NEW: Horizontal layout — avatar left, content right */
+.ai-response-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+
+.ai-avatar-col {
+    flex-shrink: 0;
+    padding-top: 2px;
+}
+
+.ai-content-col {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Deprecated: old vertical header (keep for backwards compat) */
+.ai-bubble-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.ai-av {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #10a37f;
+    border: none;
+    flex-shrink: 0;
+}
+
+/* Platform specific Avatars */
+.chatgpt .ai-av,
+.ai-av.chatgpt {
+    background: #10a37f;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+}
+
+.claude .ai-av,
+.ai-av.claude {
+    background: #D97757;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+}
+
+.gemini .ai-av,
+.ai-av.gemini {
+    background: transparent;
+    border: none;
+    width: 26px;
+    height: 26px;
+}
+
+.grok .ai-av,
+.ai-av.grok {
+    background: #000000;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+}
+
+.perplexity .ai-av,
+.ai-av.perplexity {
+    background: #1F1F1F;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+}
+
+/* Dark mode overrides */
+.dark .grok .ai-av,
+.dark .ai-av.grok {
+    background: #FFF;
+}
+
+.dark .grok .ai-av svg,
+.dark .ai-av.grok svg {
+    color: #000 !important;
+}
+
+.ai-assistant-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.assistant-content {
+    color: var(--ai-text);
+    font-size: 15px;
+    line-height: 1.55;
+    width: 100%;
+}
+
+.ai-action-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding-left: 0;
+}
+
+.ai-action-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Markdown Styles */
+.markdown-body {
+    font-family: inherit;
+}
+
+.markdown-body p {
+    margin-bottom: 12px;
+}
+
+.markdown-body p:last-child {
+    margin-bottom: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+    margin-bottom: 12px;
+    padding-left: 20px;
+}
+
+.markdown-body li {
+    margin-bottom: 4px;
+}
+
+.markdown-body strong {
+    font-weight: 600;
+}
+
+.markdown-body code {
+    background: rgba(128, 128, 128, 0.15);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.markdown-body pre {
+    background: #1e1e1e;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 12px;
+}
+
+.markdown-body pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+}

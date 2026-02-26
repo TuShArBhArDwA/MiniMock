@@ -4,12 +4,41 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Editor from './components/Editor'
 import ChatPreview from './components/ChatPreview'
+import AIEditor from './components/ai/AIEditor'
+import AIPreview from './components/ai/AIPreview'
 import DownloadModal from './components/DownloadModal'
 import platformThemes from './themes/platformThemes'
+import aiThemes from './themes/aiThemes.jsx'
+import './components/ai/AIStyles.css'
+import './components/ai/AIStyles.css'
 
 const defaultPeople = [
   { id: '1', name: 'You', avatar: null, role: 'sender' },
   { id: '2', name: 'Friend', avatar: null, role: 'receiver' },
+]
+
+const defaultAIMessages = [
+  {
+    id: 'ai1',
+    role: 'user',
+    text: 'What can you help me with today?',
+    time: '15:11',
+    date: '01/01/2026',
+  },
+  {
+    id: 'ai2',
+    role: 'assistant',
+    text: `I can help you with a wide variety of tasks! Here are some things I'm good at:\n\n- **Writing & Editing:** Essays, emails, creative writing, proofreading\n- **Coding:** Debugging, explaining code, writing scripts\n- **Research:** Summarizing topics, answering questions\n- **Math & Logic:** Solving problems, explaining concepts\n- **Brainstorming:** Ideas for projects, names, strategies\n\nWhat would you like to work on?`,
+    time: '15:11',
+    date: '01/01/2026',
+  },
+  {
+    id: 'ai3',
+    role: 'user',
+    text: 'Can you help me write a short poem about coffee?',
+    time: '15:11',
+    date: '01/01/2026',
+  }
 ]
 
 const defaultMessages = [
@@ -79,13 +108,14 @@ const defaultMessages = [
 ]
 
 function App() {
+  const [activeTab, setActiveTab] = useState('chat')
+  // Standard Chat State
   const [platform, setPlatform] = useState('whatsapp')
   const [chatType, setChatType] = useState('dm')
   const [appTheme, setAppTheme] = useState('dark') // 'light' or 'dark'
   const [groupData, setGroupData] = useState({ name: 'Group Chat', avatar: null })
   const [people, setPeople] = useState(defaultPeople)
   const [messages, setMessages] = useState(defaultMessages)
-  const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [appearance, setAppearance] = useState({
     darkMode: false,
     transparentBg: false,
@@ -97,6 +127,24 @@ function App() {
     statusBarTime: '9:41',
     battery: 100,
   })
+
+  // AI Chat State
+  const [aiPlatform, setAiPlatform] = useState('gemini')
+  const [aiModel, setAiModel] = useState('gemini-advanced')
+  const [aiMessages, setAiMessages] = useState(defaultAIMessages)
+  const [aiPerson, setAiPerson] = useState({ id: 'user', name: 'You', avatar: null })
+  const [aiAppearance, setAiAppearance] = useState({
+    darkMode: false,
+    transparentBg: false,
+    showHeader: true,
+    showFooter: true,
+    phoneFrame: true,
+    statusBar: true,
+    statusBarTime: '9:41',
+    battery: 100,
+  })
+
+  const [showDownloadModal, setShowDownloadModal] = useState(false)
 
   const previewRef = useRef(null)
   const theme = platformThemes[platform]
@@ -173,37 +221,70 @@ function App() {
 
   return (
     <div className="app" data-theme={appTheme}>
-      <Navbar appTheme={appTheme} setAppTheme={setAppTheme} />
+      <Navbar appTheme={appTheme} setAppTheme={setAppTheme} activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="app-main">
-        <div style={{ width: editorWidth, flexShrink: 0 }}>
-          <Editor
-            platform={platform}
-            setPlatform={setPlatform}
-            chatType={chatType}
-            setChatType={setChatType}
-            groupData={groupData}
-            setGroupData={setGroupData}
-            people={people}
-            setPeople={setPeople}
-            messages={messages}
-            setMessages={setMessages}
-            appearance={appearance}
-            setAppearance={setAppearance}
-          />
-        </div>
-        <div className="resize-handle" onMouseDown={handleMouseDown}>
-          <div className="resize-handle-line" />
-        </div>
-        <ChatPreview
-          ref={previewRef}
-          theme={theme}
-          groupData={groupData}
-          people={people}
-          messages={messages}
-          appearance={appearance}
-          chatType={chatType}
-          onDownload={() => setShowDownloadModal(true)}
-        />
+        {activeTab === 'chat' ? (
+          <>
+            <div style={{ width: editorWidth, flexShrink: 0 }}>
+              <Editor
+                platform={platform}
+                setPlatform={setPlatform}
+                chatType={chatType}
+                setChatType={setChatType}
+                groupData={groupData}
+                setGroupData={setGroupData}
+                people={people}
+                setPeople={setPeople}
+                messages={messages}
+                setMessages={setMessages}
+                appearance={appearance}
+                setAppearance={setAppearance}
+              />
+            </div>
+            <div className="resize-handle" onMouseDown={handleMouseDown}>
+              <div className="resize-handle-line" />
+            </div>
+            <ChatPreview
+              ref={previewRef}
+              theme={theme}
+              groupData={groupData}
+              people={people}
+              messages={messages}
+              appearance={appearance}
+              chatType={chatType}
+              onDownload={() => setShowDownloadModal(true)}
+            />
+          </>
+        ) : (
+          <>
+            <div style={{ width: editorWidth, flexShrink: 0 }}>
+              <AIEditor
+                platform={aiPlatform}
+                setPlatform={setAiPlatform}
+                aiModel={aiModel}
+                setAiModel={setAiModel}
+                aiPerson={aiPerson}
+                setAiPerson={setAiPerson}
+                messages={aiMessages}
+                setMessages={setAiMessages}
+                appearance={aiAppearance}
+                setAppearance={setAiAppearance}
+              />
+            </div>
+            <div className="resize-handle" onMouseDown={handleMouseDown}>
+              <div className="resize-handle-line" />
+            </div>
+            <AIPreview
+              ref={previewRef}
+              platform={aiPlatform}
+              model={aiModel}
+              person={aiPerson}
+              messages={aiMessages}
+              appearance={aiAppearance}
+              onDownload={() => setShowDownloadModal(true)}
+            />
+          </>
+        )}
       </div>
       <Footer />
       <DownloadModal

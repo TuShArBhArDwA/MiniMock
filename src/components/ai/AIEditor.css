@@ -1,0 +1,55 @@
+.ai-platforms {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.message-edit-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.msg-edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.msg-role {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.role-sub {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.msg-time {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.msg-textarea {
+    min-height: 80px;
+    margin-bottom: 12px;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.msg-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}

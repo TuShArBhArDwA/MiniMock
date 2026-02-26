@@ -1,29 +1,30 @@
 import './Navbar.css'
 
 const navItems = [
-  { label: 'Chat', active: true },
-  { label: 'AI Chat', disabled: true },
-  { label: 'Posts', disabled: true },
-  { label: 'Comments', disabled: true },
-  { label: 'Stories', disabled: true },
-  { label: 'Email', disabled: true },
+  { id: 'chat', label: 'Chat' },
+  { id: 'ai', label: 'AI Chat' },
+  { id: 'posts', label: 'Posts', disabled: true },
+  { id: 'comments', label: 'Comments', disabled: true },
+  { id: 'stories', label: 'Stories', disabled: true },
+  { id: 'email', label: 'Email', disabled: true },
 ]
 
 import { Moon, Sun } from 'lucide-react'
 
-function Navbar({ appTheme, setAppTheme }) {
+function Navbar({ appTheme, setAppTheme, activeTab, setActiveTab }) {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
         <span className="navbar-logo">M</span>
-        <span className="navbar-title">MiniMock</span>
+        <span className="navbar-title">mockly</span>
       </div>
       <div className="navbar-tabs">
         {navItems.map((item) => (
           <button
-            key={item.label}
-            className={`navbar-tab ${item.active ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
+            key={item.id}
+            className={`navbar-tab ${activeTab === item.id ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
             disabled={item.disabled}
+            onClick={() => !item.disabled && setActiveTab(item.id)}
           >
             {item.label}
             {item.disabled && <span className="tab-soon">soon</span>}
