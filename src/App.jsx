@@ -204,67 +204,72 @@ Use **double asterisks** around text to redact it.`,
     if (!previewRef.current) return
     try {
       const el = previewRef.current
-
-      // Override frame styles via inline (no class removal = no visual flash)
-      const savedBorder = el.style.border
-      const savedShadow = el.style.boxShadow
-      const savedRadius = el.style.borderRadius
-      el.style.border = 'none'
-      el.style.boxShadow = 'none'
-      el.style.borderRadius = '0'
-
-      // Hide scrollbar for chat preview
-      const messagesEl = el.querySelector('.preview-messages')
-      const savedMessagesOverflow = messagesEl ? messagesEl.style.overflow : ''
-      if (messagesEl) messagesEl.style.overflow = 'hidden'
-
-      // Expand email preview temporarily to capture full thread
       const isEmailPreview = el.classList.contains('email-preview-wrapper')
-      const savedMaxHeight = el.style.maxHeight
-      const savedHeight = el.style.height
-      const savedOverflow = el.style.overflow
-      
-      let emailContainer
-      let savedContainerOverflow = ''
-      let targetHeight
-      
+
+      // Read scroll position from the LIVE element before cloning
+      const messagesEl = el.querySelector('.preview-messages')
+      const currentScroll = messagesEl ? messagesEl.scrollTop : 0
+
+      // Deep-clone the node so we never touch the live DOM
+      const clone = el.cloneNode(true)
+
+      // Style the clone to be invisible but properly laid out
+      // Use clientWidth/clientHeight (excludes border) since we remove the border on the clone
+      clone.style.position = 'fixed'
+      clone.style.left = '-9999px'
+      clone.style.top = '0'
+      clone.style.width = `${el.clientWidth}px`
+      clone.style.height = `${el.clientHeight}px`
+      clone.style.zIndex = '-9999'
+
+      // Remove phone frame styles on the clone
+      clone.style.border = 'none'
+      clone.style.boxShadow = 'none'
+      clone.style.borderRadius = '0'
+
+      // Append clone inside .app so it inherits theme CSS variables
+      const appEl = document.querySelector('.app')
+      appEl.appendChild(clone)
+
+      // For Chat/AI Chat: simulate scroll position via margin shift on the clone
+      const cloneMessages = clone.querySelector('.preview-messages')
+      if (cloneMessages && !isEmailPreview && currentScroll > 0) {
+        const cloneFirstChild = cloneMessages.firstElementChild
+        const originalFirstChild = messagesEl.firstElementChild
+        if (cloneFirstChild && originalFirstChild) {
+          const computedMargin = parseFloat(getComputedStyle(originalFirstChild).marginTop) || 0
+          cloneFirstChild.style.marginTop = `${computedMargin - currentScroll}px`
+        }
+        cloneMessages.style.overflow = 'hidden'
+      }
+
+      // For Email: expand clone to full thread height
+      let toPngHeight
       if (isEmailPreview) {
-        emailContainer = el.querySelector('.email-preview-container')
-        if (emailContainer) {
-          // Explicitly force the wrapper to be as tall as the scrollable content
-          targetHeight = emailContainer.scrollHeight
-          el.style.maxHeight = 'none'
-          el.style.height = `${targetHeight}px`
-          el.style.overflow = 'visible'
-          
-          savedContainerOverflow = emailContainer.style.overflow
-          emailContainer.style.overflow = 'visible'
+        const cloneContainer = clone.querySelector('.email-preview-container')
+        if (cloneContainer) {
+          toPngHeight = cloneContainer.scrollHeight
+          clone.style.maxHeight = 'none'
+          clone.style.height = `${toPngHeight}px`
+          clone.style.overflow = 'visible'
+          cloneContainer.style.overflow = 'visible'
         }
       }
 
-      const dataUrl = await toPng(el, {
+      const dataUrl = await toPng(clone, {
         quality: 1,
         pixelRatio: 3,
         cacheBust: true,
         backgroundColor: appearance.transparentBg ? undefined : null,
-        height: isEmailPreview && targetHeight ? targetHeight : undefined,
-        style: isEmailPreview ? { transform: 'none' } : undefined
+        height: toPngHeight || undefined,
+        style: {
+          position: 'static',
+          left: 'auto',
+        },
       })
 
-      // Restore everything instantly
-      el.style.border = savedBorder
-      el.style.boxShadow = savedShadow
-      el.style.borderRadius = savedRadius
-      if (messagesEl) messagesEl.style.overflow = savedMessagesOverflow
-      
-      if (isEmailPreview) {
-        el.style.maxHeight = savedMaxHeight
-        el.style.height = savedHeight
-        el.style.overflow = savedOverflow
-        if (emailContainer) {
-          emailContainer.style.overflow = savedContainerOverflow
-        }
-      }
+      // Remove clone immediately
+      appEl.removeChild(clone)
 
       const link = document.createElement('a')
       link.download = `${fileName}.png`

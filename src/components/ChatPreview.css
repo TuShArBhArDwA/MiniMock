@@ -55,6 +55,17 @@
     flex-direction: column;
     gap: 4px;
     min-height: 200px;
+
+    /* Hide scrollbar so it doesn't show in downloaded image */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+.preview-messages::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
 }
 
 .btn-download {
