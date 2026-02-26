@@ -1,0 +1,307 @@
+/* ─────────────────── Email Editor ─────────────────── */
+
+.email-participant-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.participant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.participant-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.redact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--accent-color, #6c63ff);
+    cursor: pointer;
+}
+
+.email-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.email-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.email-card-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.email-body-input {
+    resize: vertical;
+    min-height: 80px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.email-redact-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.email-redact-hint code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.section-subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.section-subheader span {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.btn-text {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.15s;
+}
+
+.btn-text:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+/* ─────────────────── Email Preview ─────────────────── */
+
+.email-preview-wrapper {
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    max-width: 680px;
+    width: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.email-preview-container {
+    padding: 32px 40px;
+    flex: 1;
+    overflow-y: auto;
+
+    /* Hide scrollbar so it doesn't show in downloaded image */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+.email-preview-container::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+.email-header-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.email-header-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1a1a1a;
+}
+
+.email-header-label {
+    font-weight: 700;
+    color: #333;
+    text-align: right;
+    min-width: 90px;
+    flex-shrink: 0;
+}
+
+.email-header-value {
+    color: #1a1a1a;
+    word-break: break-word;
+}
+
+.email-attachment-link {
+    color: #1a73e8;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.email-separator {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+.email-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #1a1a1a;
+}
+
+.email-body-line {
+    margin: 0 0 12px 0;
+}
+
+.email-body-line:last-child {
+    margin-bottom: 0;
+}
+
+/* Redacted text — solid black bars */
+.redacted-text {
+    background: #000;
+    color: #000;
+    padding: 1px 2px;
+    border-radius: 2px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.email-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Quoted email thread blocks */
+.email-quote-wrapper {
+    margin-top: 24px;
+}
+
+.email-quoted-block {
+    padding-left: 16px;
+    border-left: 3px solid #ccc;
+}
+
+.email-quote-header {
+    font-size: 15px;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    line-height: 1.7;
+}
+
+.email-quote-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #1a1a1a;
+}
+
+.email-quote-link {
+    color: #1a73e8;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Download button positioning */
+.preview-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-primary);
+
+    /* Checkerboard for transparent mode */
+    background-image: linear-gradient(45deg, var(--bg-tertiary) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--bg-tertiary) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--bg-tertiary) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--bg-tertiary) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+}
+
+.download-btn {
+    position: fixed;
+    bottom: 60px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
+    transition: all 0.2s;
+    z-index: 10;
+}
+
+.download-btn:hover {
+    background: #6d28d9;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+}

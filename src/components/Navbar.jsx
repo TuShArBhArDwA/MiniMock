@@ -6,7 +6,7 @@ const navItems = [
   { id: 'posts', label: 'Posts', disabled: true },
   { id: 'comments', label: 'Comments', disabled: true },
   { id: 'stories', label: 'Stories', disabled: true },
-  { id: 'email', label: 'Email', disabled: true },
+  { id: 'email', label: 'Email' },
 ]
 
 import { Moon, Sun } from 'lucide-react'

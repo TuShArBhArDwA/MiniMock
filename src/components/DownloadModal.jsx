@@ -2,19 +2,19 @@ import { useState, useEffect } from 'react'
 import { X, ImageDown } from 'lucide-react'
 import './DownloadModal.css'
 
-function DownloadModal({ isOpen, onClose, onDownload, platform }) {
+function DownloadModal({ isOpen, onClose, onDownload, defaultFileName }) {
   const [fileName, setFileName] = useState('')
 
   useEffect(() => {
     if (isOpen) {
-      setFileName(`minimock-${platform}-chat`)
+      setFileName(defaultFileName)
     }
-  }, [isOpen, platform])
+  }, [isOpen, defaultFileName])
 
   if (!isOpen) return null
 
   const handleDownload = () => {
-    onDownload(fileName || `minimock-${platform}-chat`)
+    onDownload(fileName || defaultFileName)
     onClose()
   }
 

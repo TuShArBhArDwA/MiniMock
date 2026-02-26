@@ -6,10 +6,11 @@ import Editor from './components/Editor'
 import ChatPreview from './components/ChatPreview'
 import AIEditor from './components/ai/AIEditor'
 import AIPreview from './components/ai/AIPreview'
+import EmailEditor from './components/email/EmailEditor'
+import EmailPreview from './components/email/EmailPreview'
 import DownloadModal from './components/DownloadModal'
 import platformThemes from './themes/platformThemes'
 import aiThemes from './themes/aiThemes.jsx'
-import './components/ai/AIStyles.css'
 import './components/ai/AIStyles.css'
 
 const defaultPeople = [
@@ -144,6 +145,26 @@ function App() {
     battery: 100,
   })
 
+  // Email State
+  const [emailSubject, setEmailSubject] = useState('Re: Follow-up on Recent Discussion')
+  const [emailAttachment, setEmailAttachment] = useState('file.pdf')
+  const [emailParticipants, setEmailParticipants] = useState([
+    { id: 'p1', name: 'Effrey Jepstein', email: 'jeeholiday@gmail.com', redactName: false, redactEmail: false },
+    { id: 'p2', name: 'Gill Bates', email: 'gillbates@microhard.com', redactName: false, redactEmail: false },
+  ])
+  const [emailThread, setEmailThread] = useState([
+    {
+      id: 'e1',
+      fromId: 'p1',
+      datetime: '2024-08-15T20:02',
+      body: `I wanted to follow up on our previous **discussion** regarding the **upcoming event**.
+
+Please let me know your availability for next week. We should also discuss the **guest list** and **arrangements**.
+
+Use **double asterisks** around text to redact it.`,
+    },
+  ])
+
   const [showDownloadModal, setShowDownloadModal] = useState(false)
 
   const previewRef = useRef(null)
@@ -192,32 +213,73 @@ function App() {
       el.style.boxShadow = 'none'
       el.style.borderRadius = '0'
 
-      // Hide scrollbar
+      // Hide scrollbar for chat preview
       const messagesEl = el.querySelector('.preview-messages')
-      const savedOverflow = messagesEl ? messagesEl.style.overflow : ''
+      const savedMessagesOverflow = messagesEl ? messagesEl.style.overflow : ''
       if (messagesEl) messagesEl.style.overflow = 'hidden'
+
+      // Expand email preview temporarily to capture full thread
+      const isEmailPreview = el.classList.contains('email-preview-wrapper')
+      const savedMaxHeight = el.style.maxHeight
+      const savedHeight = el.style.height
+      const savedOverflow = el.style.overflow
+      
+      let emailContainer
+      let savedContainerOverflow = ''
+      let targetHeight
+      
+      if (isEmailPreview) {
+        emailContainer = el.querySelector('.email-preview-container')
+        if (emailContainer) {
+          // Explicitly force the wrapper to be as tall as the scrollable content
+          targetHeight = emailContainer.scrollHeight
+          el.style.maxHeight = 'none'
+          el.style.height = `${targetHeight}px`
+          el.style.overflow = 'visible'
+          
+          savedContainerOverflow = emailContainer.style.overflow
+          emailContainer.style.overflow = 'visible'
+        }
+      }
 
       const dataUrl = await toPng(el, {
         quality: 1,
         pixelRatio: 3,
         cacheBust: true,
         backgroundColor: appearance.transparentBg ? undefined : null,
+        height: isEmailPreview && targetHeight ? targetHeight : undefined,
+        style: isEmailPreview ? { transform: 'none' } : undefined
       })
 
       // Restore everything instantly
       el.style.border = savedBorder
       el.style.boxShadow = savedShadow
       el.style.borderRadius = savedRadius
-      if (messagesEl) messagesEl.style.overflow = savedOverflow
+      if (messagesEl) messagesEl.style.overflow = savedMessagesOverflow
+      
+      if (isEmailPreview) {
+        el.style.maxHeight = savedMaxHeight
+        el.style.height = savedHeight
+        el.style.overflow = savedOverflow
+        if (emailContainer) {
+          emailContainer.style.overflow = savedContainerOverflow
+        }
+      }
 
       const link = document.createElement('a')
-      link.download = `${fileName || `minimock-${platform}-chat`}.png`
+      link.download = `${fileName}.png`
       link.href = dataUrl
       link.click()
     } catch (err) {
       console.error('Export failed:', err)
     }
-  }, [platform, appearance.transparentBg])
+  }, [appearance.transparentBg])
+
+  const defaultFileName = activeTab === 'chat' 
+    ? `minimock-${platform}-chat` 
+    : activeTab === 'ai' 
+      ? `minimock-${aiPlatform}-ai` 
+      : `minimock-email`
 
   return (
     <div className="app" data-theme={appTheme}>
@@ -255,7 +317,7 @@ function App() {
               onDownload={() => setShowDownloadModal(true)}
             />
           </>
-        ) : (
+        ) : activeTab === 'ai' ? (
           <>
             <div style={{ width: editorWidth, flexShrink: 0 }}>
               <AIEditor
@@ -284,14 +346,40 @@ function App() {
               onDownload={() => setShowDownloadModal(true)}
             />
           </>
-        )}
+        ) : activeTab === 'email' ? (
+          <>
+            <div style={{ width: editorWidth, flexShrink: 0 }}>
+              <EmailEditor
+                subject={emailSubject}
+                setSubject={setEmailSubject}
+                attachment={emailAttachment}
+                setAttachment={setEmailAttachment}
+                participants={emailParticipants}
+                setParticipants={setEmailParticipants}
+                emails={emailThread}
+                setEmails={setEmailThread}
+              />
+            </div>
+            <div className="resize-handle" onMouseDown={handleMouseDown}>
+              <div className="resize-handle-line" />
+            </div>
+            <EmailPreview
+              ref={previewRef}
+              subject={emailSubject}
+              attachment={emailAttachment}
+              participants={emailParticipants}
+              emails={emailThread}
+              onDownload={() => setShowDownloadModal(true)}
+            />
+          </>
+        ) : null}
       </div>
       <Footer />
       <DownloadModal
         isOpen={showDownloadModal}
         onClose={() => setShowDownloadModal(false)}
         onDownload={handleDownload}
-        platform={platform}
+        defaultFileName={defaultFileName}
       />
     </div>
   )

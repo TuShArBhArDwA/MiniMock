@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { MessageSquare, LayoutTemplate, Settings2, Trash2, Plus, ArrowRightLeft, Image, ChevronDown, GripVertical, Calendar, Users, Camera, User, Info, ImagePlus } from 'lucide-react'
+import { MessageSquare, LayoutTemplate, Settings2, Trash2, Plus, ArrowRightLeft, Image, ChevronDown, GripVertical, Calendar, Users, Camera, User, Info, ImagePlus, Smartphone } from 'lucide-react'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -7,6 +7,7 @@ import aiThemes from '../../themes/aiThemes.jsx'
 import './AIEditor.css'
 import '../MessagesSection.css' /* Reuse exact standard editor message card UI */
 import '../PeopleSection.css'
+import '../AppearanceSection.css'
 
 function AIPersonCard({ person, onNameChange, onAvatarChange }) {
   const fileRef = useRef(null)
@@ -300,101 +301,122 @@ export default function AIEditor({ platform, setPlatform, aiModel, setAiModel, a
 
         {/* Appearance Section */}
         <div className="section">
-          <div className="section-header">
+          <div className="section-header" onClick={() => toggleSection('appearance')}>
             <div className="section-header-left">
-              <Settings2 />
-              Appearance
+              <Settings2 size={16} />
+              <span>Appearance</span>
             </div>
+            <ChevronDown size={16} className={`section-toggle ${openSection.appearance ? 'open' : ''}`} />
           </div>
-          <div className="section-content">
-            <div className="form-sublabel">THEME</div>
-            <div className="form-row">
-              <span className="form-label">Dark mode</span>
-              <label className="toggle-switch">
-                <input
-                  type="checkbox"
-                  checked={appearance.darkMode}
-                  onChange={(e) => setAppearance({ ...appearance, darkMode: e.target.checked })}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
+          {openSection.appearance && (
+            <div className="section-content appearance-content">
+              {/* Theme */}
+              <div className="form-sublabel">Theme</div>
 
-            <div className="form-sublabel">LAYOUT</div>
-            <div className="form-row">
-              <span className="form-label">Show header</span>
-              <label className="toggle-switch">
-                <input
-                  type="checkbox"
-                  checked={appearance.showHeader}
-                  onChange={(e) => setAppearance({ ...appearance, showHeader: e.target.checked })}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
-            <div className="form-row" style={{ marginTop: '12px' }}>
-              <span className="form-label">Show footer</span>
-              <label className="toggle-switch">
-                <input
-                  type="checkbox"
-                  checked={appearance.showFooter}
-                  onChange={(e) => setAppearance({ ...appearance, showFooter: e.target.checked })}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
-
-            <div className="form-sublabel">DEVICE</div>
-            <div className="form-row">
-              <span className="form-label">Phone frame</span>
-              <label className="toggle-switch">
-                <input
-                  type="checkbox"
-                  checked={appearance.phoneFrame}
-                  onChange={(e) => setAppearance({ ...appearance, phoneFrame: e.target.checked })}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
-            
-            <div className="form-row" style={{ marginTop: '12px' }}>
-              <span className="form-label">Status bar</span>
-              <label className="toggle-switch">
-                <input
-                  type="checkbox"
-                  checked={appearance.statusBar}
-                  onChange={(e) => setAppearance({ ...appearance, statusBar: e.target.checked })}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
-
-            {appearance.statusBar && (
-              <div className="statusbar-settings">
-                <div className="form-sublabel">STATUS BAR DETAILS</div>
-                <div className="form-row">
-                  <span className="form-label">Time</span>
+              <div className="form-row">
+                <span className="form-label">Dark mode</span>
+                <label className="toggle-switch">
                   <input
-                    type="text"
-                    className="input input-small"
-                    value={appearance.statusBarTime}
-                    onChange={(e) => setAppearance({ ...appearance, statusBarTime: e.target.value })}
+                    type="checkbox"
+                    checked={appearance.darkMode}
+                    onChange={(e) => setAppearance({ ...appearance, darkMode: e.target.checked })}
                   />
-                </div>
-                <div className="form-row" style={{ marginTop: '12px' }}>
-                  <span className="form-label">Battery (%)</span>
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    className="input input-small"
-                    value={appearance.battery}
-                    onChange={(e) => setAppearance({ ...appearance, battery: parseInt(e.target.value) || 100 })}
-                  />
-                </div>
+                  <span className="toggle-slider" />
+                </label>
               </div>
-            )}
-          </div>
+
+              {/* Layout */}
+              <div className="form-sublabel">Layout</div>
+
+              <div className="form-row">
+                <span className="form-label">Show header</span>
+                <label className="toggle-switch">
+                  <input
+                    type="checkbox"
+                    checked={appearance.showHeader}
+                    onChange={(e) => setAppearance({ ...appearance, showHeader: e.target.checked })}
+                  />
+                  <span className="toggle-slider" />
+                </label>
+              </div>
+
+              <div className="form-row">
+                <span className="form-label">Show footer</span>
+                <label className="toggle-switch">
+                  <input
+                    type="checkbox"
+                    checked={appearance.showFooter}
+                    onChange={(e) => setAppearance({ ...appearance, showFooter: e.target.checked })}
+                  />
+                  <span className="toggle-slider" />
+                </label>
+              </div>
+
+              {/* Device */}
+              <div className="form-sublabel">Device</div>
+
+              <div className="form-row">
+                <span className="form-label">Phone frame</span>
+                <label className="toggle-switch">
+                  <input
+                    type="checkbox"
+                    checked={appearance.phoneFrame}
+                    onChange={(e) => setAppearance({ ...appearance, phoneFrame: e.target.checked })}
+                  />
+                  <span className="toggle-slider" />
+                </label>
+              </div>
+
+              <div className="form-row">
+                <span className="form-label">Status bar</span>
+                <label className="toggle-switch">
+                  <input
+                    type="checkbox"
+                    checked={appearance.statusBar}
+                    onChange={(e) => setAppearance({ ...appearance, statusBar: e.target.checked })}
+                  />
+                  <span className="toggle-slider" />
+                </label>
+              </div>
+
+              {/* Status Bar Details */}
+              {appearance.statusBar && (
+                <>
+                  <div className="form-sublabel">Status Bar</div>
+
+                  <div className="form-row">
+                    <span className="form-label">
+                      <Calendar size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
+                      Time
+                    </span>
+                    <input
+                      className="input input-small"
+                      value={appearance.statusBarTime}
+                      onChange={(e) => setAppearance({ ...appearance, statusBarTime: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-row">
+                    <span className="form-label">
+                      <Smartphone size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
+                      Battery
+                    </span>
+                    <div className="battery-input">
+                      <input
+                        type="number"
+                        className="input input-small"
+                        min={0}
+                        max={100}
+                        value={appearance.battery}
+                        onChange={(e) => setAppearance({ ...appearance, battery: parseInt(e.target.value) || 0 })}
+                      />
+                      <span className="battery-pct">%</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
         </div>
 
       </div>
