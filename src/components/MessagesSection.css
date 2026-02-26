@@ -1,0 +1,122 @@
+.add-message-btn {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.message-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    margin-bottom: 8px;
+    background: var(--bg-secondary);
+    transition: box-shadow var(--transition);
+}
+
+.message-card:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.message-card-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.message-sender-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.message-sender-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.message-sender-select {
+    flex: 1;
+    min-width: 80px;
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+.message-datetime {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-muted);
+    margin-left: auto;
+}
+
+.message-date {
+    width: auto;
+    font-size: 11px;
+    padding: 3px 4px;
+}
+
+.message-time {
+    width: auto;
+    font-size: 11px;
+    padding: 3px 4px;
+}
+
+.message-card-body {
+    margin-bottom: 8px;
+}
+
+.message-text {
+    font-size: 13px;
+    min-height: 40px;
+}
+
+.message-image-preview {
+    position: relative;
+    margin-top: 6px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    display: inline-block;
+}
+
+.message-image-preview img {
+    max-width: 100%;
+    max-height: 120px;
+    border-radius: var(--radius-sm);
+    display: block;
+}
+
+.remove-image {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.6) !important;
+    color: white !important;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+}
+
+.message-card-bottom {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.message-status-select {
+    font-size: 11px;
+    padding: 4px 8px;
+}
+
+.message-add-image {
+    font-size: 11px;
+    padding: 4px 10px;
+}

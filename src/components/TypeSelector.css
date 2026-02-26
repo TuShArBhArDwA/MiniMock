@@ -1,0 +1,33 @@
+.type-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.type-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.type-btn:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+}
+
+.type-btn.active {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+}

@@ -1,0 +1,94 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    height: 52px;
+    padding: 0 24px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    gap: 32px;
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.navbar-logo {
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: white;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.navbar-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+}
+
+.navbar-tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.navbar-tab {
+    padding: 8px 14px;
+    border: none;
+    background: none;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.navbar-tab:hover:not(.disabled) {
+    color: var(--text-primary);
+    background: var(--accent-light);
+}
+
+.navbar-tab.active {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    font-weight: 600;
+}
+
+.navbar-tab.disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.tab-soon {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+    font-weight: 600;
+    background: var(--accent-light);
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+.navbar-right {
+    margin-left: auto;
+}

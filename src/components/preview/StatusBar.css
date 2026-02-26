@@ -1,0 +1,48 @@
+.status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px 6px;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.status-time {
+    font-variant-numeric: tabular-nums;
+}
+
+.status-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-battery {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.battery-shell {
+    width: 22px;
+    height: 11px;
+    border: 1.5px solid currentColor;
+    border-radius: 2px;
+    padding: 1px;
+    position: relative;
+}
+
+.battery-fill {
+    height: 100%;
+    background: currentColor;
+    border-radius: 1px;
+    transition: width 0.3s;
+}
+
+.battery-tip {
+    width: 2px;
+    height: 5px;
+    background: currentColor;
+    border-radius: 0 1px 1px 0;
+}

@@ -1,0 +1,125 @@
+/* Bubble layout */
+.bubble-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.bubble-row.sent {
+    justify-content: flex-end;
+}
+
+.bubble-row.received {
+    justify-content: flex-start;
+}
+
+.bubble-avatar-small {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(128, 128, 128, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(128, 128, 128, 0.6);
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.bubble-avatar-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bubble {
+    max-width: 70%;
+    padding: 8px 10px;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.bubble-text {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.bubble-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.bubble-time {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.bubble-image {
+    max-width: 100%;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+/* Flat style (Discord, Slack) */
+.bubble-flat {
+    display: flex;
+    gap: 12px;
+    padding: 6px 0;
+}
+
+.bubble-flat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.bubble-flat-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bubble-flat-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 50%;
+}
+
+.bubble-flat-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.bubble-flat-header {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.bubble-flat-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.bubble-flat-time {
+    font-size: 11px;
+}
+
+.bubble-flat-text {
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
