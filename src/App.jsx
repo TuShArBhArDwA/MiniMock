@@ -20,8 +20,8 @@ import aiThemes from './themes/aiThemes.jsx'
 import './components/ai/AIStyles.css'
 
 const defaultPeople = [
-  { id: '1', name: 'You', avatar: null, role: 'sender' },
-  { id: '2', name: 'Friend', avatar: null, role: 'receiver' },
+  { id: '1', name: 'You', avatar: null, role: 'sender', verified: false },
+  { id: '2', name: 'Friend', avatar: null, role: 'receiver', verified: false },
 ]
 
 const defaultAIMessages = [
@@ -204,12 +204,12 @@ Grateful for my amazing team! #ProductDesign #CareerGrowth`,
   // Comments State
   const [commentPlatform, setCommentPlatform] = useState('linkedin')
   const [commentCreator, setCommentCreator] = useState({
-    id: 'creator', name: 'Content Creator', handle: 'contentcreator', avatar: null,
+    id: 'creator', name: 'Content Creator', handle: 'contentcreator', avatar: null, verified: false,
   })
   const [commentCommenters, setCommentCommenters] = useState([
-    { id: 'c1', name: 'Alex Thompson', handle: 'alexthompson', avatar: null },
-    { id: 'c2', name: 'Sarah Chen', handle: 'sarahchen', avatar: null },
-    { id: 'c3', name: 'Mike Johnson', handle: 'mikejohnson', avatar: null },
+    { id: 'c1', name: 'Alex Thompson', handle: 'alexthompson', avatar: null, verified: false },
+    { id: 'c2', name: 'Sarah Chen', handle: 'sarahchen', avatar: null, verified: false },
+    { id: 'c3', name: 'Mike Johnson', handle: 'mikejohnson', avatar: null, verified: false },
   ])
   const [commentComments, setCommentComments] = useState([
     { id: 'cm1', personId: 'c1', text: 'This is amazing! Thanks for sharing this content. Really helped me understand the topic better.', likes: '245', time: '1mo', replies: [

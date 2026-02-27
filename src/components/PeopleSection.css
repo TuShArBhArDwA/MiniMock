@@ -104,3 +104,19 @@
 .info-icon {
     color: var(--text-tertiary);
 }
+
+.verified-toggle {
+    color: var(--text-muted);
+    opacity: 0.4;
+    transition: all 0.15s;
+    padding: 2px;
+}
+
+.verified-toggle:hover {
+    opacity: 0.7;
+}
+
+.verified-toggle.active {
+    color: #1DA1F2;
+    opacity: 1;
+}

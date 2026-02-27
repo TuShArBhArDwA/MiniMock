@@ -4,6 +4,35 @@ import './CommentsStyles.css'
 
 const avatarColors = ['#0a66c2', '#e1306c', '#6dae4f', '#e8a600', '#df704d', '#8b5cf6', '#ef4444', '#06b6d4']
 
+// Verified badge per platform
+const VerifiedBadge = ({ platform }) => {
+  if (platform === 'x') {
+    return (
+      <svg width="14" height="14" viewBox="0 0 22 22" fill="none" style={{ marginLeft: 3, verticalAlign: 'middle', flexShrink: 0 }}>
+        <circle cx="11" cy="11" r="11" fill="#1D9BF0"/>
+        <path d="M9.5 14.25L6.25 11L7.3 9.95L9.5 12.15L14.7 6.95L15.75 8L9.5 14.25Z" fill="white"/>
+      </svg>
+    )
+  }
+  if (platform === 'youtube') {
+    return (
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ marginLeft: 3, verticalAlign: 'middle', flexShrink: 0 }}>
+        <circle cx="12" cy="12" r="12" fill="#606060"/>
+        <path d="M9.5 15.25L7 12.75L7.7 12.05L9.5 13.85L16.3 7.05L17 7.75L9.5 15.25Z" fill="white"/>
+      </svg>
+    )
+  }
+  if (platform === 'linkedin' || platform === 'reddit') return null
+  // Instagram, Facebook, Threads — blue star badge
+  const color = platform === 'facebook' ? '#1877F2' : '#3897f0'
+  return (
+    <svg width="13" height="13" viewBox="0 0 40 40" fill="none" style={{ marginLeft: 3, verticalAlign: 'middle', flexShrink: 0 }}>
+      <path d="M19.998 3.094L24.883 0l2.555 4.96 5.325-1.174.855 5.428 4.856 2.46-2.38 4.99 3.614 4.107-4.107 3.614 2.38 4.99-4.856 2.46-.855 5.428-5.325-1.174L24.883 40l-4.885-3.094L15.113 40l-2.555-4.96-5.325 1.174-.855-5.428-4.856-2.46 2.38-4.99L.288 19.23l4.107-3.614-2.38-4.99 4.856-2.46.855-5.428 5.325 1.174L15.113 0l4.885 3.094z" fill={color}/>
+      <path d="M17.8 25.86l-6.02-6.02 2.83-2.83 3.19 3.19 7.07-7.07 2.83 2.83-9.9 9.9z" fill="#fff"/>
+    </svg>
+  )
+}
+
 function formatNumber(n) {
   const num = parseInt(n) || 0
   if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
@@ -156,6 +185,7 @@ function getPersonInfo(personId, allPeople, commenters) {
     color,
     initial: person.name?.[0]?.toUpperCase() || '?',
     isCreator: personId === allPeople[0]?.id,
+    verified: person.verified || false,
   }
 }
 
@@ -197,6 +227,7 @@ const CommentsPreview = forwardRef(function CommentsPreview(
                     <div className="comment-bubble">
                       <div className="comment-author-row">
                         <span className="comment-author-name">{person.name}</span>
+                        {person.verified && <VerifiedBadge platform={platform} />}
                         {cfg.badge && <span className="comment-author-badge">{cfg.badge}</span>}
                         {platform === 'x' && person.handle && (
                           <span className="comment-author-badge">@{person.handle}</span>
@@ -241,6 +272,7 @@ const CommentsPreview = forwardRef(function CommentsPreview(
                         <div className="comment-bubble">
                           <div className="comment-author-row">
                             <span className="comment-author-name">{replyPerson.name}</span>
+                            {replyPerson.verified && <VerifiedBadge platform={platform} />}
                             {cfg.badge && <span className="comment-author-badge">{cfg.badge}</span>}
                             {platform === 'x' && replyPerson.handle && (
                               <span className="comment-author-badge">@{replyPerson.handle}</span>

@@ -67,6 +67,17 @@ function ChatHeader({ theme, isDark, chatType, people, receiver, groupData }) {
   const name = chatType === 'dm' ? (receiver?.name || 'Chat') : (groupData?.name || 'Group Chat')
   const avatar = chatType === 'dm' ? receiver?.avatar : groupData?.avatar
 
+  // Platforms that support verified badges in chat header
+  const verifiedPlatforms = ['instagram', 'x', 'telegram']
+  const showVerified = chatType === 'dm' && receiver?.verified && verifiedPlatforms.includes(theme.id)
+
+  const VerifiedIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 22 22" fill="none" style={{ marginLeft: 4, flexShrink: 0 }}>
+      <circle cx="11" cy="11" r="11" fill="#1D9BF0"/>
+      <path d="M9.5 14.25L6.25 11L7.3 9.95L9.5 12.15L14.7 6.95L15.75 8L9.5 14.25Z" fill="white"/>
+    </svg>
+  )
+
   let statusText = ''
   if (chatType === 'dm') {
     statusText = theme.onlineText
@@ -105,7 +116,10 @@ function ChatHeader({ theme, isDark, chatType, people, receiver, groupData }) {
               )}
             </div>
             <div className="chat-header-info">
-              <span className="chat-header-name">{name}</span>
+              <div className="chat-header-name-row">
+                <span className="chat-header-name">{name}</span>
+                {showVerified && <VerifiedIcon />}
+              </div>
               {statusText && (
                 <span className="chat-header-status" style={{
                   opacity: 0.7, fontSize: 11,

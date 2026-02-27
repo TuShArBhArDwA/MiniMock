@@ -1,11 +1,14 @@
 import { useState, useRef } from 'react'
-import { ChevronDown, Users, Plus, Trash2, GripVertical, Camera, User, Info } from 'lucide-react'
+import { ChevronDown, Users, Plus, Trash2, GripVertical, Camera, User, Info, BadgeCheck } from 'lucide-react'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import './PeopleSection.css'
 
-function SortablePerson({ person, onNameChange, onAvatarChange, onRemove, canRemove, hideDrag }) {
+// Platforms that support verified badge in chat
+const VERIFIED_PLATFORMS = ['instagram', 'x', 'telegram']
+
+function SortablePerson({ person, onNameChange, onAvatarChange, onVerifiedChange, onRemove, canRemove, hideDrag, showVerified }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: person.id })
   const fileRef = useRef(null)
 
@@ -44,6 +47,15 @@ function SortablePerson({ person, onNameChange, onAvatarChange, onRemove, canRem
         onChange={(e) => onNameChange(person.id, e.target.value)}
         placeholder="Name"
       />
+      {showVerified && (
+        <button
+          className={`btn-icon verified-toggle ${person.verified ? 'active' : ''}`}
+          onClick={() => onVerifiedChange(person.id, !person.verified)}
+          title={person.verified ? 'Remove verified badge' : 'Add verified badge'}
+        >
+          <BadgeCheck size={16} />
+        </button>
+      )}
       {canRemove && (
         <button className="btn-icon" onClick={() => onRemove(person.id)}>
           <Trash2 size={14} />
@@ -53,9 +65,11 @@ function SortablePerson({ person, onNameChange, onAvatarChange, onRemove, canRem
   )
 }
 
-function PeopleSection({ people, setPeople, chatType }) {
+function PeopleSection({ people, setPeople, chatType, platform }) {
   const [open, setOpen] = useState(true)
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
+
+  const supportsVerified = VERIFIED_PLATFORMS.includes(platform)
 
   const handleDragEnd = (event) => {
     const { active, over } = event
@@ -70,7 +84,7 @@ function PeopleSection({ people, setPeople, chatType }) {
 
   const addPerson = () => {
     const id = `p${Date.now()}`
-    setPeople(prev => [...prev, { id, name: `Person ${prev.length + 1}`, avatar: null, role: 'receiver' }])
+    setPeople(prev => [...prev, { id, name: `Person ${prev.length + 1}`, avatar: null, role: 'receiver', verified: false }])
   }
 
   const removePerson = (id) => {
@@ -83,6 +97,10 @@ function PeopleSection({ people, setPeople, chatType }) {
 
   const updateAvatar = (id, avatar) => {
     setPeople(prev => prev.map(p => p.id === id ? { ...p, avatar } : p))
+  }
+
+  const updateVerified = (id, verified) => {
+    setPeople(prev => prev.map(p => p.id === id ? { ...p, verified } : p))
   }
 
   const senderPeople = people.filter(p => p.role === 'sender')
@@ -109,9 +127,11 @@ function PeopleSection({ people, setPeople, chatType }) {
               person={p}
               onNameChange={updateName}
               onAvatarChange={updateAvatar}
+              onVerifiedChange={updateVerified}
               onRemove={removePerson}
               canRemove={false}
               hideDrag={true}
+              showVerified={false}
             />
           ))}
 
@@ -128,9 +148,11 @@ function PeopleSection({ people, setPeople, chatType }) {
                   person={p}
                   onNameChange={updateName}
                   onAvatarChange={updateAvatar}
+                  onVerifiedChange={updateVerified}
                   onRemove={removePerson}
                   canRemove={chatType === 'group' && receiverPeople.length > 1}
                   hideDrag={chatType === 'dm' || receiverPeople.length <= 1}
+                  showVerified={supportsVerified}
                 />
               ))}
             </SortableContext>

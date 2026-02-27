@@ -18,7 +18,7 @@ function Editor({
       <div className="editor-scroll">
         <PlatformSelector platform={platform} setPlatform={setPlatform} />
         <TypeSelector chatType={chatType} setChatType={setChatType} groupData={groupData} setGroupData={setGroupData} setPeople={setPeople} />
-        <PeopleSection people={people} setPeople={setPeople} chatType={chatType} />
+        <PeopleSection people={people} setPeople={setPeople} chatType={chatType} platform={platform} />
         <MessagesSection messages={messages} setMessages={setMessages} people={people} />
         <AppearanceSection appearance={appearance} setAppearance={setAppearance} />
       </div>

@@ -53,6 +53,12 @@
     text-overflow: ellipsis;
 }
 
+.chat-header-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
 .chat-header-status {
     font-size: 11px;
     line-height: 1.2;

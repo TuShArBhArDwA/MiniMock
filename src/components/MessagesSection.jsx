@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import {
   ChevronDown, MessageCircle, Plus, Trash2, GripVertical,
-  ImagePlus, Calendar, Clock, User, ArrowRightLeft
+  ImagePlus, Clock, User, ArrowRightLeft
 } from 'lucide-react'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
@@ -71,21 +71,9 @@ function SortableMessage({ msg, people, onUpdate, onDelete, onImageUpload }) {
             <option key={p.id} value={p.id}>{p.name}</option>
           ))}
         </select>
-        <div className="message-datetime">
-          <Calendar size={12} />
-          <input
-            type="date"
-            className="input input-small message-date"
-            value={msg.date}
-            onChange={(e) => onUpdate(msg.id, 'date', e.target.value)}
-          />
-          <input
-            type="time"
-            className="input input-small message-time"
-            value={msg.time}
-            onChange={(e) => onUpdate(msg.id, 'time', e.target.value)}
-          />
-        </div>
+        <button className="btn-icon" onClick={() => onDelete(msg.id)}>
+          <Trash2 size={14} />
+        </button>
       </div>
       <div className="message-card-body">
         <textarea
@@ -105,6 +93,20 @@ function SortableMessage({ msg, people, onUpdate, onDelete, onImageUpload }) {
         )}
       </div>
       <div className="message-card-bottom">
+        <div className="message-datetime">
+          <input
+            type="date"
+            className="input message-date"
+            value={msg.date}
+            onChange={(e) => onUpdate(msg.id, 'date', e.target.value)}
+          />
+          <input
+            type="time"
+            className="input message-time"
+            value={msg.time}
+            onChange={(e) => onUpdate(msg.id, 'time', e.target.value)}
+          />
+        </div>
         {isSent ? (
           <select
             className="select message-status-select"
@@ -120,12 +122,9 @@ function SortableMessage({ msg, people, onUpdate, onDelete, onImageUpload }) {
         )}
         <button className="btn btn-ghost message-add-image" onClick={() => fileRef.current?.click()}>
           <ImagePlus size={13} />
-          Add Image
+          Image
         </button>
         <input ref={fileRef} type="file" accept="image/*" hidden onChange={handleImage} />
-        <button className="btn-icon" onClick={() => onDelete(msg.id)}>
-          <Trash2 size={14} />
-        </button>
       </div>
     </div>
   )

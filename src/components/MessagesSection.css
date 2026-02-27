@@ -96,19 +96,26 @@
     align-items: center;
     gap: 4px;
     color: var(--text-muted);
-    margin-left: auto;
 }
 
 .message-date {
     width: auto;
     font-size: 11px;
-    padding: 3px 4px;
+    padding: 3px 6px;
+    color: var(--text-secondary);
 }
 
 .message-time {
     width: auto;
     font-size: 11px;
-    padding: 3px 4px;
+    padding: 3px 6px;
+    color: var(--text-secondary);
+}
+
+/* Make native date/time picker icons visible in dark mode */
+[data-theme="dark"] .message-date,
+[data-theme="dark"] .message-time {
+    color-scheme: dark;
 }
 
 .message-card-body {
@@ -150,6 +157,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    flex-wrap: wrap;
 }
 
 .message-status-select {
@@ -160,4 +168,5 @@
 .message-add-image {
     font-size: 11px;
     padding: 4px 10px;
+    margin-left: auto;
 }

@@ -1,5 +1,8 @@
 import { useState, useRef } from 'react'
-import { Smartphone, Users, ChevronDown, Settings2, Camera, Plus, X, MessageSquare, User, ArrowRightLeft } from 'lucide-react'
+import { Smartphone, Users, ChevronDown, Settings2, Camera, Plus, X, MessageSquare, User, ArrowRightLeft, GripVertical, Trash2, BadgeCheck } from 'lucide-react'
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import '../Editor.css'
 import '../PeopleSection.css'
 import '../AppearanceSection.css'
@@ -56,6 +59,36 @@ const platforms = [
 
 const avatarColors = ['#0a66c2', '#e1306c', '#6dae4f', '#e8a600', '#df704d', '#8b5cf6', '#ef4444', '#06b6d4']
 
+function SortableCommentCard({ id, children }) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
+  const style = { transform: CSS.Transform.toString(transform), transition }
+  return (
+    <div ref={setNodeRef} style={style} className="comment-editor-card">
+      {children({ ...attributes, ...listeners })}
+    </div>
+  )
+}
+
+function SortableCommenterCard({ id, children }) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
+  const style = { transform: CSS.Transform.toString(transform), transition, marginBottom: '6px' }
+  return (
+    <div ref={setNodeRef} style={style} className="person-card no-drag">
+      {children({ ...attributes, ...listeners })}
+    </div>
+  )
+}
+
+function SortableReplyCard({ id, children }) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
+  const style = { transform: CSS.Transform.toString(transform), transition, margin: '0 0 6px 0' }
+  return (
+    <div ref={setNodeRef} style={style} className="comment-editor-card">
+      {children({ ...attributes, ...listeners })}
+    </div>
+  )
+}
+
 export default function CommentsEditor({
   platform, setPlatform,
   creator, setCreator,
@@ -68,12 +101,51 @@ export default function CommentsEditor({
   })
   const creatorAvatarRef = useRef(null)
   const commenterAvatarRefs = useRef({})
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
 
   // All people = creator + commenters
   const allPeople = [creator, ...commenters]
 
   const toggleSection = (section) => {
     setOpenSection(prev => ({ ...prev, [section]: !prev[section] }))
+  }
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event
+    if (active.id !== over?.id) {
+      setComments((items) => {
+        const oldIndex = items.findIndex(i => i.id === active.id)
+        const newIndex = items.findIndex(i => i.id === over.id)
+        return arrayMove(items, oldIndex, newIndex)
+      })
+    }
+  }
+
+  const deleteComment = (index) => {
+    setComments(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const handleCommenterDragEnd = (event) => {
+    const { active, over } = event
+    if (active.id !== over?.id) {
+      setCommenters((items) => {
+        const oldIndex = items.findIndex(i => i.id === active.id)
+        const newIndex = items.findIndex(i => i.id === over.id)
+        return arrayMove(items, oldIndex, newIndex)
+      })
+    }
+  }
+
+  const handleReplyDragEnd = (ci) => (event) => {
+    const { active, over } = event
+    if (active.id !== over?.id) {
+      setComments(prev => prev.map((c, i) => {
+        if (i !== ci) return c
+        const oldIndex = c.replies.findIndex(r => r.id === active.id)
+        const newIndex = c.replies.findIndex(r => r.id === over.id)
+        return { ...c, replies: arrayMove(c.replies, oldIndex, newIndex) }
+      }))
+    }
   }
 
   const handleCreatorAvatar = (e) => {
@@ -96,7 +168,7 @@ export default function CommentsEditor({
 
   const addCommenter = () => {
     const id = `c${Date.now()}`
-    setCommenters(prev => [...prev, { id, name: 'New User', handle: 'newuser', avatar: null }])
+    setCommenters(prev => [...prev, { id, name: 'New User', handle: 'newuser', avatar: null, verified: false }])
     setComments(prev => [...prev, {
       id: `cm${Date.now()}`,
       personId: id,
@@ -259,6 +331,15 @@ export default function CommentsEditor({
                   onChange={(e) => setCreator(prev => ({ ...prev, name: e.target.value }))}
                   placeholder="Creator name"
                 />
+                {['instagram', 'x', 'facebook', 'threads', 'youtube'].includes(platform) && (
+                  <button
+                    className={`btn-icon verified-toggle ${creator.verified ? 'active' : ''}`}
+                    onClick={() => setCreator(prev => ({ ...prev, verified: !prev.verified }))}
+                    title={creator.verified ? 'Remove verified badge' : 'Add verified badge'}
+                  >
+                    <BadgeCheck size={16} />
+                  </button>
+                )}
                 <input
                   className="input"
                   style={{ width: '100px', fontSize: '12px' }}
@@ -272,47 +353,63 @@ export default function CommentsEditor({
                 COMMENTERS
                 <span style={{ float: 'right', color: 'var(--text-muted)' }}>{commenters.length}</span>
               </div>
-              {commenters.map((c, i) => (
-                <div key={c.id} className="person-card no-drag" style={{ marginBottom: '6px' }}>
-                  <div
-                    className="person-avatar"
-                    style={{ background: avatarColors[i % avatarColors.length], color: '#fff', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
-                    onClick={() => commenterAvatarRefs.current[c.id]?.click()}
-                  >
-                    {c.avatar ? <img src={c.avatar} alt={c.name} /> : c.name[0]?.toUpperCase()}
-                    <div className="avatar-overlay"><Camera size={10} /></div>
-                    <input
-                      ref={el => commenterAvatarRefs.current[c.id] = el}
-                      type="file"
-                      accept="image/*"
-                      hidden
-                      onChange={(e) => handleCommenterAvatar(i, e)}
-                    />
-                  </div>
-                  <input
-                    className="input person-name"
-                    value={c.name}
-                    onChange={(e) => setCommenters(prev => prev.map((p, j) => j === i ? { ...p, name: e.target.value } : p))}
-                    placeholder="Name"
-                  />
-                  <input
-                    className="input"
-                    style={{ width: '90px', fontSize: '12px' }}
-                    value={c.handle}
-                    onChange={(e) => setCommenters(prev => prev.map((p, j) => j === i ? { ...p, handle: e.target.value } : p))}
-                    placeholder="handle"
-                  />
-                  {commenters.length > 1 && (
-                    <button
-                      className="btn-icon"
-                      style={{ color: 'var(--text-muted)', padding: '2px' }}
-                      onClick={() => removeCommenter(i)}
-                    >
-                      <X size={14} />
-                    </button>
-                  )}
-                </div>
-              ))}
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleCommenterDragEnd}>
+                <SortableContext items={commenters.map(c => c.id)} strategy={verticalListSortingStrategy}>
+                  {commenters.map((c, i) => (
+                    <SortableCommenterCard key={c.id} id={c.id}>
+                      {(dragHandleProps) => (
+                        <>
+                          <div className="drag-handle" {...dragHandleProps}>
+                            <GripVertical size={14} />
+                          </div>
+                          <div
+                            className="person-avatar"
+                            style={{ background: avatarColors[i % avatarColors.length], color: '#fff', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
+                            onClick={() => commenterAvatarRefs.current[c.id]?.click()}
+                          >
+                            {c.avatar ? <img src={c.avatar} alt={c.name} /> : c.name[0]?.toUpperCase()}
+                            <div className="avatar-overlay"><Camera size={10} /></div>
+                            <input
+                              ref={el => commenterAvatarRefs.current[c.id] = el}
+                              type="file"
+                              accept="image/*"
+                              hidden
+                              onChange={(e) => handleCommenterAvatar(i, e)}
+                            />
+                          </div>
+                          <input
+                            className="input person-name"
+                            value={c.name}
+                            onChange={(e) => setCommenters(prev => prev.map((p, j) => j === i ? { ...p, name: e.target.value } : p))}
+                            placeholder="Name"
+                          />
+                          {['instagram', 'x', 'facebook', 'threads', 'youtube'].includes(platform) && (
+                            <button
+                              className={`btn-icon verified-toggle ${c.verified ? 'active' : ''}`}
+                              onClick={() => setCommenters(prev => prev.map((p, j) => j === i ? { ...p, verified: !p.verified } : p))}
+                              title={c.verified ? 'Remove verified badge' : 'Add verified badge'}
+                            >
+                              <BadgeCheck size={16} />
+                            </button>
+                          )}
+                          <input
+                            className="input"
+                            style={{ width: '90px', fontSize: '12px' }}
+                            value={c.handle}
+                            onChange={(e) => setCommenters(prev => prev.map((p, j) => j === i ? { ...p, handle: e.target.value } : p))}
+                            placeholder="handle"
+                          />
+                          {commenters.length > 1 && (
+                            <button className="btn-icon" onClick={() => removeCommenter(i)}>
+                              <Trash2 size={14} />
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </SortableCommenterCard>
+                  ))}
+                </SortableContext>
+              </DndContext>
               <button className="btn-add" onClick={addCommenter}>
                 <Plus size={14} /> Add commenter
               </button>
@@ -332,103 +429,36 @@ export default function CommentsEditor({
           </div>
           {openSection.comments && (
             <div className="section-content">
-              {comments.map((comment, ci) => (
-                <div key={comment.id} className="comment-editor-card">
-                  {/* Comment header: avatar swap + name + likes */}
-                  <div className="comment-editor-header">
-                    <div
-                      className="comment-swap-avatar"
-                      style={{ background: getPersonColor(comment.personId) }}
-                      onClick={() => swapCommentPerson(ci)}
-                      title="Click to swap author"
-                    >
-                      {getPersonAvatar(comment.personId) ? (
-                        <img src={getPersonAvatar(comment.personId)} alt="" />
-                      ) : (
-                        getPersonInitial(comment.personId)
-                      )}
-                      <div className="comment-swap-icon">
-                        <ArrowRightLeft size={8} strokeWidth={3} />
-                      </div>
-                    </div>
-                    <select
-                      className="select comment-person-select"
-                      value={comment.personId}
-                      onChange={(e) => updateComment(ci, 'personId', e.target.value)}
-                    >
-                      {allPeople.map(p => (
-                        <option key={p.id} value={p.id}>{p.name}</option>
-                      ))}
-                    </select>
-                    <input
-                      className="input comment-editor-likes"
-                      value={comment.likes}
-                      onChange={(e) => updateComment(ci, 'likes', e.target.value)}
-                      placeholder="0"
-                    />
-                    <span className="comment-editor-likes-label">likes</span>
-                  </div>
-                  <textarea
-                    className="input"
-                    value={comment.text}
-                    onChange={(e) => updateComment(ci, 'text', e.target.value)}
-                    placeholder="Comment text..."
-                  />
-                  <div className="comment-editor-time-row">
-                    <span className="comment-editor-time-label">Time:</span>
-                    <input
-                      className="input"
-                      style={{ width: 40, textAlign: 'center', fontSize: '11px', padding: '3px 4px' }}
-                      value={comment.time?.replace(/[^0-9]/g, '') || '1'}
-                      onChange={(e) => {
-                        const val = e.target.value.replace(/[^0-9]/g, '') || '1'
-                        const unit = comment.time?.replace(/[0-9]/g, '') || 'mo'
-                        updateComment(ci, 'time', val + unit)
-                      }}
-                    />
-                    <select
-                      className="select"
-                      style={{ fontSize: '11px', padding: '3px 6px', width: 'auto' }}
-                      value={comment.time?.replace(/[0-9]/g, '') || 'mo'}
-                      onChange={(e) => {
-                        const val = comment.time?.replace(/[^0-9]/g, '') || '1'
-                        updateComment(ci, 'time', val + e.target.value)
-                      }}
-                    >
-                      <option value="s">seconds</option>
-                      <option value="m">minutes</option>
-                      <option value="h">hours</option>
-                      <option value="d">days</option>
-                      <option value="w">weeks</option>
-                      <option value="mo">months</option>
-                      <option value="y">years</option>
-                    </select>
-                  </div>
-
-                  {/* Replies */}
-                  <div className="comment-editor-reply">
-                    {comment.replies.map((reply, ri) => (
-                      <div key={reply.id} className="comment-editor-card" style={{ margin: '0 0 6px 0' }}>
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                <SortableContext items={comments.map(c => c.id)} strategy={verticalListSortingStrategy}>
+                  {comments.map((comment, ci) => (
+                    <SortableCommentCard key={comment.id} id={comment.id}>
+                      {(dragHandleProps) => (
+                        <>
+                        {/* Comment header: drag + avatar swap + name + likes + delete */}
                         <div className="comment-editor-header">
+                          <div className="drag-handle" {...dragHandleProps}>
+                            <GripVertical size={14} />
+                          </div>
                           <div
                             className="comment-swap-avatar"
-                            style={{ background: getPersonColor(reply.personId), width: 22, height: 22, fontSize: 9 }}
-                            onClick={() => swapReplyPerson(ci, ri)}
-                            title="Click to swap reply author"
+                            style={{ background: getPersonColor(comment.personId) }}
+                            onClick={() => swapCommentPerson(ci)}
+                            title="Click to swap author"
                           >
-                            {getPersonAvatar(reply.personId) ? (
-                              <img src={getPersonAvatar(reply.personId)} alt="" />
+                            {getPersonAvatar(comment.personId) ? (
+                              <img src={getPersonAvatar(comment.personId)} alt="" />
                             ) : (
-                              getPersonInitial(reply.personId)
+                              getPersonInitial(comment.personId)
                             )}
                             <div className="comment-swap-icon">
-                              <ArrowRightLeft size={7} strokeWidth={3} />
+                              <ArrowRightLeft size={8} strokeWidth={3} />
                             </div>
                           </div>
                           <select
-                            className="select comment-person-select comment-person-select-sm"
-                            value={reply.personId}
-                            onChange={(e) => updateReply(ci, ri, 'personId', e.target.value)}
+                            className="select comment-person-select"
+                            value={comment.personId}
+                            onChange={(e) => updateComment(ci, 'personId', e.target.value)}
                           >
                             {allPeople.map(p => (
                               <option key={p.id} value={p.id}>{p.name}</option>
@@ -436,68 +466,156 @@ export default function CommentsEditor({
                           </select>
                           <input
                             className="input comment-editor-likes"
-                            style={{ width: 45 }}
-                            value={reply.likes}
-                            onChange={(e) => updateReply(ci, ri, 'likes', e.target.value)}
+                            value={comment.likes}
+                            onChange={(e) => updateComment(ci, 'likes', e.target.value)}
                             placeholder="0"
                           />
-                          <button
-                            className="btn-icon"
-                            style={{ color: 'var(--text-muted)', padding: '2px' }}
-                            onClick={() => removeReply(ci, ri)}
-                          >
-                            <X size={12} />
+                          <span className="comment-editor-likes-label">likes</span>
+                          <button className="btn-icon" onClick={() => deleteComment(ci)}>
+                            <Trash2 size={14} />
                           </button>
                         </div>
-                        <input
+                        <textarea
                           className="input"
-                          style={{ fontSize: '12px' }}
-                          value={reply.text}
-                          onChange={(e) => updateReply(ci, ri, 'text', e.target.value)}
-                          placeholder="Reply text..."
+                          value={comment.text}
+                          onChange={(e) => updateComment(ci, 'text', e.target.value)}
+                          placeholder="Comment text..."
                         />
                         <div className="comment-editor-time-row">
                           <span className="comment-editor-time-label">Time:</span>
                           <input
                             className="input"
-                            style={{ width: 35, textAlign: 'center', fontSize: '11px', padding: '3px 4px' }}
-                            value={reply.time?.replace(/[^0-9]/g, '') || '1'}
+                            style={{ width: 40, textAlign: 'center', fontSize: '11px', padding: '3px 4px' }}
+                            value={comment.time?.replace(/[^0-9]/g, '') || '1'}
                             onChange={(e) => {
                               const val = e.target.value.replace(/[^0-9]/g, '') || '1'
-                              const unit = reply.time?.replace(/[0-9]/g, '') || 'mo'
-                              updateReply(ci, ri, 'time', val + unit)
+                              const unit = comment.time?.replace(/[0-9]/g, '') || 'mo'
+                              updateComment(ci, 'time', val + unit)
                             }}
                           />
                           <select
                             className="select"
-                            style={{ fontSize: '11px', padding: '3px 4px', width: 'auto' }}
-                            value={reply.time?.replace(/[0-9]/g, '') || 'mo'}
+                            style={{ fontSize: '11px', padding: '3px 6px', width: 'auto' }}
+                            value={comment.time?.replace(/[0-9]/g, '') || 'mo'}
                             onChange={(e) => {
-                              const val = reply.time?.replace(/[^0-9]/g, '') || '1'
-                              updateReply(ci, ri, 'time', val + e.target.value)
+                              const val = comment.time?.replace(/[^0-9]/g, '') || '1'
+                              updateComment(ci, 'time', val + e.target.value)
                             }}
                           >
-                            <option value="s">sec</option>
-                            <option value="m">min</option>
-                            <option value="h">hr</option>
-                            <option value="d">day</option>
-                            <option value="w">wk</option>
-                            <option value="mo">mo</option>
-                            <option value="y">yr</option>
+                            <option value="s">seconds</option>
+                            <option value="m">minutes</option>
+                            <option value="h">hours</option>
+                            <option value="d">days</option>
+                            <option value="w">weeks</option>
+                            <option value="mo">months</option>
+                            <option value="y">years</option>
                           </select>
                         </div>
-                      </div>
-                    ))}
-                    <button
-                      className="btn-add"
-                      style={{ fontSize: '11px', padding: '5px 8px' }}
-                      onClick={() => addReply(ci)}
-                    >
-                      <Plus size={12} /> Add reply
-                    </button>
-                  </div>
-                </div>
-              ))}
+
+                        {/* Replies */}
+                        <div className="comment-editor-reply">
+                          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleReplyDragEnd(ci)}>
+                            <SortableContext items={comment.replies.map(r => r.id)} strategy={verticalListSortingStrategy}>
+                              {comment.replies.map((reply, ri) => (
+                                <SortableReplyCard key={reply.id} id={reply.id}>
+                                  {(dragHandleProps) => (
+                                    <>
+                                      <div className="comment-editor-header">
+                                        <div className="drag-handle" {...dragHandleProps} style={{ padding: '2px' }}>
+                                          <GripVertical size={12} />
+                                        </div>
+                                        <div
+                                          className="comment-swap-avatar"
+                                          style={{ background: getPersonColor(reply.personId), width: 22, height: 22, fontSize: 9 }}
+                                          onClick={() => swapReplyPerson(ci, ri)}
+                                          title="Click to swap reply author"
+                                        >
+                                          {getPersonAvatar(reply.personId) ? (
+                                            <img src={getPersonAvatar(reply.personId)} alt="" />
+                                          ) : (
+                                            getPersonInitial(reply.personId)
+                                          )}
+                                          <div className="comment-swap-icon">
+                                            <ArrowRightLeft size={7} strokeWidth={3} />
+                                          </div>
+                                        </div>
+                                        <select
+                                          className="select comment-person-select comment-person-select-sm"
+                                          value={reply.personId}
+                                          onChange={(e) => updateReply(ci, ri, 'personId', e.target.value)}
+                                        >
+                                          {allPeople.map(p => (
+                                            <option key={p.id} value={p.id}>{p.name}</option>
+                                          ))}
+                                        </select>
+                                        <input
+                                          className="input comment-editor-likes"
+                                          style={{ width: 45 }}
+                                          value={reply.likes}
+                                          onChange={(e) => updateReply(ci, ri, 'likes', e.target.value)}
+                                          placeholder="0"
+                                        />
+                                        <button className="btn-icon" onClick={() => removeReply(ci, ri)}>
+                                          <Trash2 size={12} />
+                                        </button>
+                                      </div>
+                                      <input
+                                        className="input"
+                                        style={{ fontSize: '12px' }}
+                                        value={reply.text}
+                                        onChange={(e) => updateReply(ci, ri, 'text', e.target.value)}
+                                        placeholder="Reply text..."
+                                      />
+                                      <div className="comment-editor-time-row">
+                                        <span className="comment-editor-time-label">Time:</span>
+                                        <input
+                                          className="input"
+                                          style={{ width: 35, textAlign: 'center', fontSize: '11px', padding: '3px 4px' }}
+                                          value={reply.time?.replace(/[^0-9]/g, '') || '1'}
+                                          onChange={(e) => {
+                                            const val = e.target.value.replace(/[^0-9]/g, '') || '1'
+                                            const unit = reply.time?.replace(/[0-9]/g, '') || 'mo'
+                                            updateReply(ci, ri, 'time', val + unit)
+                                          }}
+                                        />
+                                        <select
+                                          className="select"
+                                          style={{ fontSize: '11px', padding: '3px 4px', width: 'auto' }}
+                                          value={reply.time?.replace(/[0-9]/g, '') || 'mo'}
+                                          onChange={(e) => {
+                                            const val = reply.time?.replace(/[^0-9]/g, '') || '1'
+                                            updateReply(ci, ri, 'time', val + e.target.value)
+                                          }}
+                                        >
+                                          <option value="s">sec</option>
+                                          <option value="m">min</option>
+                                          <option value="h">hr</option>
+                                          <option value="d">day</option>
+                                          <option value="w">wk</option>
+                                          <option value="mo">mo</option>
+                                          <option value="y">yr</option>
+                                        </select>
+                                      </div>
+                                    </>
+                                  )}
+                                </SortableReplyCard>
+                              ))}
+                            </SortableContext>
+                          </DndContext>
+                          <button
+                            className="btn-add"
+                            style={{ fontSize: '11px', padding: '5px 8px' }}
+                            onClick={() => addReply(ci)}
+                          >
+                            <Plus size={12} /> Add reply
+                          </button>
+                        </div>
+                        </>
+                      )}
+                    </SortableCommentCard>
+                  ))}
+                </SortableContext>
+              </DndContext>
             </div>
           )}
         </div>

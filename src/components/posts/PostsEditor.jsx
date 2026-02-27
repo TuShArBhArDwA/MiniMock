@@ -189,7 +189,7 @@ export default function PostsEditor({
                 placeholder={subtitlePlaceholders[platform] || 'Title or handle'}
               />
 
-              {platform === 'instagram' && (
+              {['instagram', 'x', 'facebook', 'threads', 'youtube'].includes(platform) && (
                 <>
                   <div className="form-sublabel">VERIFIED BADGE</div>
                   <div className="form-row">

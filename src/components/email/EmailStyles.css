@@ -10,9 +10,15 @@
 
 .participant-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 6px;
     margin-bottom: 8px;
+}
+
+.participant-header .drag-handle {
+    cursor: grab;
+    color: var(--text-muted);
+    padding: 2px;
 }
 
 .participant-label {
@@ -21,6 +27,7 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    flex: 1;
 }
 
 .redact-options {
@@ -56,15 +63,34 @@
 
 .email-card-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 6px;
     margin-bottom: 8px;
 }
 
-.email-card-label {
-    font-size: 13px;
+.email-card-header .drag-handle {
+    cursor: grab;
+    color: var(--text-muted);
+    padding: 2px;
+}
+
+.email-card-header .btn-icon {
+    margin-left: auto;
+}
+
+.email-card-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.section-badge {
+    font-size: 11px;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 10px;
     font-weight: 600;
-    color: var(--text-primary);
 }
 
 .email-body-input {
