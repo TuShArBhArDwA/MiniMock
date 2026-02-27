@@ -5,7 +5,7 @@ const navItems = [
   { id: 'ai', label: 'AI Chat' },
   { id: 'posts', label: 'Posts', disabled: true },
   { id: 'comments', label: 'Comments', disabled: true },
-  { id: 'stories', label: 'Stories', disabled: true },
+  { id: 'stories', label: 'Stories' },
   { id: 'email', label: 'Email' },
 ]
 
@@ -16,7 +16,7 @@ function Navbar({ appTheme, setAppTheme, activeTab, setActiveTab }) {
     <nav className="navbar">
       <div className="navbar-brand">
         <span className="navbar-logo">M</span>
-        <span className="navbar-title">mockly</span>
+        <span className="navbar-title">MiniMock</span>
       </div>
       <div className="navbar-tabs">
         {navItems.map((item) => (

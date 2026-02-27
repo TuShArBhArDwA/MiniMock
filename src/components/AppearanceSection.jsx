@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Settings, ChevronDown, Moon, Eye, Smartphone, Clock, Battery } from 'lucide-react'
+import { Settings2, ChevronDown, Moon, Eye, Smartphone, Clock, Battery } from 'lucide-react'
 import './AppearanceSection.css'
 
 function AppearanceSection({ appearance, setAppearance }) {
@@ -13,7 +13,7 @@ function AppearanceSection({ appearance, setAppearance }) {
     <div className="section">
       <div className="section-header" onClick={() => setOpen(!open)}>
         <div className="section-header-left">
-          <Settings size={16} />
+          <Settings2 size={16} />
           <span>Appearance</span>
         </div>
         <ChevronDown size={16} className={`section-toggle ${open ? 'open' : ''}`} />

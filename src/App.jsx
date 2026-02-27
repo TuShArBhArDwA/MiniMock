@@ -6,6 +6,8 @@ import Editor from './components/Editor'
 import ChatPreview from './components/ChatPreview'
 import AIEditor from './components/ai/AIEditor'
 import AIPreview from './components/ai/AIPreview'
+import StoriesEditor from './components/stories/StoriesEditor'
+import StoriesPreview from './components/stories/StoriesPreview'
 import EmailEditor from './components/email/EmailEditor'
 import EmailPreview from './components/email/EmailPreview'
 import DownloadModal from './components/DownloadModal'
@@ -139,6 +141,25 @@ function App() {
     transparentBg: false,
     showHeader: true,
     showFooter: true,
+    phoneFrame: true,
+    statusBar: true,
+    statusBarTime: '9:41',
+    battery: 100,
+  })
+
+  // Stories State
+  const [storyPlatform, setStoryPlatform] = useState('instagram')
+  const [storyProfile, setStoryProfile] = useState({
+    username: 'username',
+    avatar: null,
+    verified: false,
+    postedAt: { type: 'hours', value: 1 },
+  })
+  const [storySlides, setStorySlides] = useState([
+    { id: 's1', image: null, caption: '', music: '' },
+  ])
+  const [storyActiveSlide, setStoryActiveSlide] = useState(0)
+  const [storyAppearance, setStoryAppearance] = useState({
     phoneFrame: true,
     statusBar: true,
     statusBarTime: '9:41',
@@ -284,7 +305,9 @@ Use **double asterisks** around text to redact it.`,
     ? `minimock-${platform}-chat` 
     : activeTab === 'ai' 
       ? `minimock-${aiPlatform}-ai` 
-      : `minimock-email`
+      : activeTab === 'stories'
+        ? `minimock-${storyPlatform}-story`
+        : `minimock-email`
 
   return (
     <div className="app" data-theme={appTheme}>
@@ -348,6 +371,35 @@ Use **double asterisks** around text to redact it.`,
               person={aiPerson}
               messages={aiMessages}
               appearance={aiAppearance}
+              onDownload={() => setShowDownloadModal(true)}
+            />
+          </>
+        ) : activeTab === 'stories' ? (
+          <>
+            <div style={{ width: editorWidth, flexShrink: 0 }}>
+              <StoriesEditor
+                platform={storyPlatform}
+                setPlatform={setStoryPlatform}
+                profile={storyProfile}
+                setProfile={setStoryProfile}
+                slides={storySlides}
+                setSlides={setStorySlides}
+                activeSlide={storyActiveSlide}
+                setActiveSlide={setStoryActiveSlide}
+                appearance={storyAppearance}
+                setAppearance={setStoryAppearance}
+              />
+            </div>
+            <div className="resize-handle" onMouseDown={handleMouseDown}>
+              <div className="resize-handle-line" />
+            </div>
+            <StoriesPreview
+              ref={previewRef}
+              platform={storyPlatform}
+              profile={storyProfile}
+              slides={storySlides}
+              activeSlide={storyActiveSlide}
+              appearance={storyAppearance}
               onDownload={() => setShowDownloadModal(true)}
             />
           </>

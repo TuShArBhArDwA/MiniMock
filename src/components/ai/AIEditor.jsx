@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { MessageSquare, LayoutTemplate, Settings2, Trash2, Plus, ArrowRightLeft, Image, ChevronDown, GripVertical, Calendar, Users, Camera, User, Info, ImagePlus, Smartphone } from 'lucide-react'
+import { MessageSquare, LayoutTemplate, Settings2, Trash2, Plus, ArrowRightLeft, Image, ChevronDown, GripVertical, Calendar, Users, Camera, User, Info, ImagePlus, Smartphone, Clock, Battery } from 'lucide-react'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -192,7 +192,7 @@ export default function AIEditor({ platform, setPlatform, aiModel, setAiModel, a
         <div className="section">
           <div className="section-header" onClick={() => toggleSection('platform')}>
             <div className="section-header-left">
-              <LayoutTemplate size={16} />
+              <Smartphone size={16} />
               <span>App & Model</span>
               <span className="section-selected">{aiThemes[platform]?.name}</span>
             </div>
@@ -386,7 +386,7 @@ export default function AIEditor({ platform, setPlatform, aiModel, setAiModel, a
 
                   <div className="form-row">
                     <span className="form-label">
-                      <Calendar size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
+                      <Clock size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                       Time
                     </span>
                     <input
@@ -398,7 +398,7 @@ export default function AIEditor({ platform, setPlatform, aiModel, setAiModel, a
 
                   <div className="form-row">
                     <span className="form-label">
-                      <Smartphone size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
+                      <Battery size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                       Battery
                     </span>
                     <div className="battery-input">
