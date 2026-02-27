@@ -10,6 +10,8 @@ import StoriesEditor from './components/stories/StoriesEditor'
 import StoriesPreview from './components/stories/StoriesPreview'
 import PostsEditor from './components/posts/PostsEditor'
 import PostsPreview from './components/posts/PostsPreview'
+import CommentsEditor from './components/comments/CommentsEditor'
+import CommentsPreview from './components/comments/CommentsPreview'
 import EmailEditor from './components/email/EmailEditor'
 import EmailPreview from './components/email/EmailPreview'
 import DownloadModal from './components/DownloadModal'
@@ -197,6 +199,28 @@ Grateful for my amazing team! #ProductDesign #CareerGrowth`,
   const [postAppearance, setPostAppearance] = useState({
     darkMode: false,
   })
+  // Email State
+
+  // Comments State
+  const [commentPlatform, setCommentPlatform] = useState('linkedin')
+  const [commentCreator, setCommentCreator] = useState({
+    id: 'creator', name: 'Content Creator', handle: 'contentcreator', avatar: null,
+  })
+  const [commentCommenters, setCommentCommenters] = useState([
+    { id: 'c1', name: 'Alex Thompson', handle: 'alexthompson', avatar: null },
+    { id: 'c2', name: 'Sarah Chen', handle: 'sarahchen', avatar: null },
+    { id: 'c3', name: 'Mike Johnson', handle: 'mikejohnson', avatar: null },
+  ])
+  const [commentComments, setCommentComments] = useState([
+    { id: 'cm1', personId: 'c1', text: 'This is amazing! Thanks for sharing this content. Really helped me understand the topic better.', likes: '245', time: '1mo', replies: [
+      { id: 'r1', personId: 'creator', text: 'Thank you so much for the kind words! Glad it helped!', likes: '89', time: '1mo' },
+    ]},
+    { id: 'cm2', personId: 'c2', text: 'Great explanation! Could you make a follow-up video on this topic?', likes: '127', time: '1mo', replies: [] },
+    { id: 'cm3', personId: 'c3', text: "I've been looking for content like this for so long. Subscribed!", likes: '56', time: '1mo', replies: [] },
+  ])
+  const [commentAppearance, setCommentAppearance] = useState({
+    darkMode: false,
+  })
 
   // Email State
   const [emailSubject, setEmailSubject] = useState('Re: Follow-up on Recent Discussion')
@@ -341,7 +365,9 @@ Use **double asterisks** around text to redact it.`,
         ? `minimock-${storyPlatform}-story`
         : activeTab === 'posts'
           ? `minimock-${postPlatform}-post`
-          : `minimock-email`
+          : activeTab === 'comments'
+            ? `minimock-${commentPlatform}-comments`
+            : `minimock-email`
 
   return (
     <div className="app" data-theme={appTheme}>
@@ -463,6 +489,35 @@ Use **double asterisks** around text to redact it.`,
               content={postContent}
               metrics={postMetrics}
               appearance={postAppearance}
+              onDownload={() => setShowDownloadModal(true)}
+            />
+          </>
+        ) : activeTab === 'comments' ? (
+          <>
+            <div style={{ width: editorWidth, flexShrink: 0 }}>
+              <CommentsEditor
+                platform={commentPlatform}
+                setPlatform={setCommentPlatform}
+                creator={commentCreator}
+                setCreator={setCommentCreator}
+                commenters={commentCommenters}
+                setCommenters={setCommentCommenters}
+                comments={commentComments}
+                setComments={setCommentComments}
+                appearance={commentAppearance}
+                setAppearance={setCommentAppearance}
+              />
+            </div>
+            <div className="resize-handle" onMouseDown={handleMouseDown}>
+              <div className="resize-handle-line" />
+            </div>
+            <CommentsPreview
+              ref={previewRef}
+              platform={commentPlatform}
+              creator={commentCreator}
+              commenters={commentCommenters}
+              comments={commentComments}
+              appearance={commentAppearance}
               onDownload={() => setShowDownloadModal(true)}
             />
           </>

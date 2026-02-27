@@ -47,8 +47,8 @@ function SortableMessage({ msg, people, onUpdate, onDelete, onImageUpload }) {
           ) : (
             <User size={12} />
           )}
-          <div className="avatar-swap-overlay">
-            {people.length === 2 ? <ArrowRightLeft size={10} strokeWidth={3} /> : <ChevronDown size={10} strokeWidth={3} />}
+          <div className="comment-swap-icon">
+            {people.length === 2 ? <ArrowRightLeft size={8} strokeWidth={3} /> : <ChevronDown size={8} strokeWidth={3} />}
           </div>
           {people.length > 2 && (
             <select

@@ -1,0 +1,643 @@
+/* ========================================
+   Comments Section — Shared Styles
+   ======================================== */
+
+/* Preview container — same pattern as Posts */
+.comments-preview-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px 100px;
+    overflow-y: auto;
+}
+
+.comments-preview-wrapper {
+    width: 100%;
+    max-width: 520px;
+}
+
+/* ── Comment Card (the whole thread container) ── */
+.comment-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+    color: #1d1d1d;
+    padding-bottom: 4px;
+}
+
+.comment-card[data-theme="dark"] {
+    background: #1b1f23;
+    color: #e7e9ea;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* ── Thread Header ── */
+.comment-thread-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid #e4e6eb;
+}
+
+.comment-card[data-theme="dark"] .comment-thread-header {
+    border-bottom-color: #3a3b3c;
+}
+
+.comment-thread-title {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.comment-thread-sort {
+    font-size: 13px;
+    color: #65676b;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.comment-card[data-theme="dark"] .comment-thread-sort {
+    color: #b0b3b8;
+}
+
+/* ── Single Comment ── */
+.comment-item {
+    display: flex;
+    gap: 10px;
+    padding: 12px 16px 4px;
+}
+
+.comment-item.nested {
+    padding-left: 56px;
+}
+
+.comment-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.comment-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.comment-bubble {
+    background: #f2f3f5;
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+.comment-card[data-theme="dark"] .comment-bubble {
+    background: #3a3b3c;
+}
+
+.comment-author-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.comment-author-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: inherit;
+}
+
+.comment-author-badge {
+    font-size: 12px;
+    color: #65676b;
+    font-weight: 400;
+}
+
+.comment-card[data-theme="dark"] .comment-author-badge {
+    color: #b0b3b8;
+}
+
+.comment-author-handle {
+    font-size: 12px;
+    color: #65676b;
+    margin-bottom: 4px;
+}
+
+.comment-card[data-theme="dark"] .comment-author-handle {
+    color: #b0b3b8;
+}
+
+.comment-text {
+    font-size: 13px;
+    line-height: 1.4;
+    color: inherit;
+}
+
+/* ── Comment Actions ── */
+.comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 4px 6px;
+    font-size: 12px;
+    color: #65676b;
+    font-weight: 600;
+}
+
+.comment-card[data-theme="dark"] .comment-actions {
+    color: #b0b3b8;
+}
+
+.comment-action-link {
+    cursor: default;
+    padding: 2px 4px;
+}
+
+.comment-action-like {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.comment-action-like svg {
+    flex-shrink: 0;
+}
+
+.comment-action-separator {
+    color: #b0b3b8;
+    font-weight: 400;
+}
+
+.comment-action-time {
+    color: #b0b3b8;
+    font-weight: 400;
+    margin-left: auto;
+}
+
+.comment-card[data-theme="dark"] .comment-action-time {
+    color: #65676b;
+}
+
+/* ── Comment Input (footer) ── */
+.comment-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 12px;
+    border-top: 1px solid #e4e6eb;
+    margin-top: 4px;
+}
+
+.comment-card[data-theme="dark"] .comment-input-bar {
+    border-top-color: #3a3b3c;
+}
+
+.comment-input-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    background: #65676b;
+}
+
+.comment-input-field {
+    flex: 1;
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid #d1d5db;
+    background: transparent;
+    font-size: 13px;
+    color: #65676b;
+    cursor: default;
+    outline: none;
+}
+
+.comment-card[data-theme="dark"] .comment-input-field {
+    border-color: #3a3b3c;
+    color: #b0b3b8;
+}
+
+.comment-input-post {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0a66c2;
+    background: none;
+    border: none;
+    cursor: default;
+    padding: 4px 8px;
+}
+
+.comment-card[data-theme="dark"] .comment-input-post {
+    color: #71b7fb;
+}
+
+/* ═══════════════════════════════════════════
+   Platform Overrides — Authentic Styles
+   ═══════════════════════════════════════════ */
+
+/* ── Facebook ── */
+.comment-card[data-platform="facebook"] .comment-bubble {
+    background: #f0f2f5;
+    border-radius: 18px;
+}
+
+.comment-card[data-platform="facebook"][data-theme="dark"] .comment-bubble {
+    background: #3a3b3c;
+}
+
+.comment-card[data-platform="facebook"] .comment-input-post {
+    color: #1877f2;
+}
+
+.comment-card[data-platform="facebook"] .comment-author-name {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ── Instagram ── */
+.comment-card[data-platform="instagram"] {
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.comment-card[data-platform="instagram"][data-theme="dark"] {
+    background: #000;
+}
+
+.comment-card[data-platform="instagram"] .comment-bubble {
+    background: transparent;
+    padding: 0;
+}
+
+.comment-card[data-platform="instagram"][data-theme="dark"] .comment-bubble {
+    background: transparent;
+}
+
+.comment-card[data-platform="instagram"] .comment-input-post {
+    color: #0095f6;
+}
+
+.comment-card[data-platform="instagram"] .comment-thread-header {
+    border-bottom: none;
+    padding-bottom: 4px;
+}
+
+.comment-card[data-platform="instagram"] .comment-author-name {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.comment-card[data-platform="instagram"] .comment-item {
+    padding: 8px 16px 0;
+}
+
+.comment-card[data-platform="instagram"] .comment-avatar {
+    width: 32px;
+    height: 32px;
+}
+
+/* ── X (Twitter) ── */
+.comment-card[data-platform="x"] {
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.comment-card[data-platform="x"][data-theme="dark"] {
+    background: #000;
+}
+
+.comment-card[data-platform="x"] .comment-bubble {
+    background: transparent;
+    padding: 0;
+}
+
+.comment-card[data-platform="x"][data-theme="dark"] .comment-bubble {
+    background: transparent;
+}
+
+.comment-card[data-platform="x"] .comment-item {
+    border-bottom: 1px solid #eff3f4;
+    padding-bottom: 12px;
+}
+
+.comment-card[data-platform="x"][data-theme="dark"] .comment-item {
+    border-bottom-color: #2f3336;
+}
+
+.comment-card[data-platform="x"] .comment-author-name {
+    font-weight: 700;
+}
+
+.comment-card[data-platform="x"] .comment-author-badge {
+    color: #536471;
+}
+
+/* ── Reddit ── */
+.comment-card[data-platform="reddit"] {
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.comment-card[data-platform="reddit"][data-theme="dark"] {
+    background: #1a1a1b;
+}
+
+.comment-card[data-platform="reddit"] .comment-bubble {
+    background: transparent;
+    padding: 0;
+}
+
+.comment-card[data-platform="reddit"] .comment-item {
+    border-left: 2px solid #edeff1;
+    margin-left: 16px;
+    padding-left: 12px;
+}
+
+.comment-card[data-platform="reddit"][data-theme="dark"] .comment-item {
+    border-left-color: #343536;
+}
+
+.comment-card[data-platform="reddit"] .comment-item:first-of-type {
+    margin-left: 0;
+    border-left: none;
+    padding-left: 16px;
+}
+
+.comment-card[data-platform="reddit"] .comment-author-name {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.comment-card[data-platform="reddit"] .comment-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+    border-radius: 50%;
+}
+
+.comment-card[data-platform="reddit"] .comment-input-post {
+    color: #ff4500;
+}
+
+/* ── Threads ── */
+.comment-card[data-platform="threads"] {
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.comment-card[data-platform="threads"][data-theme="dark"] {
+    background: #101010;
+}
+
+.comment-card[data-platform="threads"] .comment-bubble {
+    background: transparent;
+    padding: 0;
+}
+
+.comment-card[data-platform="threads"] .comment-item {
+    border-bottom: 1px solid #e4e6eb;
+    padding-bottom: 12px;
+}
+
+.comment-card[data-platform="threads"][data-theme="dark"] .comment-item {
+    border-bottom-color: #323639;
+}
+
+.comment-card[data-platform="threads"] .comment-author-name {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+/* ── YouTube ── */
+.comment-card[data-platform="youtube"] {
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.comment-card[data-platform="youtube"][data-theme="dark"] {
+    background: #0f0f0f;
+}
+
+.comment-card[data-platform="youtube"] .comment-bubble {
+    background: transparent;
+    padding: 0;
+}
+
+.comment-card[data-platform="youtube"] .comment-input-post {
+    color: #065fd4;
+}
+
+.comment-card[data-platform="youtube"] .comment-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+}
+
+.comment-card[data-platform="youtube"] .comment-author-name {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.comment-card[data-platform="youtube"] .comment-actions {
+    padding-left: 0;
+}
+
+/* Download button */
+.comments-preview-container .btn-download {
+    position: fixed;
+    bottom: 60px;
+    right: 30px;
+}
+
+/* ═══════════════════════════════════════════
+   Editor Sidebar Styles
+   ═══════════════════════════════════════════ */
+
+/* ── Editor: Comment Card in sidebar ── */
+.comment-editor-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    background: var(--bg-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.comment-editor-card .comment-editor-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comment-editor-card .comment-editor-name {
+    flex: 1;
+}
+
+.comment-editor-card .comment-editor-likes {
+    width: 60px;
+    text-align: center;
+}
+
+.comment-editor-card .comment-editor-likes-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+    display: block;
+}
+
+.comment-editor-card textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+.comment-editor-time-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.comment-editor-time-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.comment-editor-reply {
+    margin-left: 20px;
+    border-left: 2px solid var(--accent);
+    padding-left: 10px;
+    margin-top: 4px;
+}
+
+.comment-editor-reply .comment-editor-card {
+    border-color: var(--accent);
+    opacity: 0.9;
+}
+
+/* ── btn-add: styled add buttons ── */
+.btn-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-top: 4px;
+}
+
+.btn-add:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(99, 102, 241, 0.04);
+}
+
+/* ── Swap Avatar (click-to-swap like Chat) ── */
+.comment-swap-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.15s ease;
+}
+
+.comment-swap-avatar:hover {
+    transform: scale(1.1);
+}
+
+.comment-swap-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-swap-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    color: #fff;
+}
+
+.comment-swap-avatar:hover .comment-swap-icon {
+    opacity: 1;
+}
+
+/* Hidden select over avatar for 3+ people */
+.avatar-hidden-select {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* ── Visible person dropdown (like Chat message-sender-select) ── */
+.comment-person-select {
+    flex: 1;
+    min-width: 80px;
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+.comment-person-select-sm {
+    font-size: 11px;
+    padding: 3px 6px;
+    min-width: 70px;
+}

@@ -45,20 +45,29 @@
     object-fit: cover;
 }
 
-.avatar-swap-overlay {
+.message-sender-avatar .comment-swap-icon {
     position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    bottom: -2px;
+    right: -2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
     opacity: 0;
-    transition: opacity var(--transition);
+    transition: opacity 0.15s ease;
+    color: #fff;
 }
 
-.message-sender-avatar:hover .avatar-swap-overlay {
+.message-sender-avatar:hover .comment-swap-icon {
     opacity: 1;
+}
+
+.message-sender-avatar:hover {
+    transform: scale(1.1);
+    transition: transform 0.15s ease;
 }
 
 .avatar-hidden-select {

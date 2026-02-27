@@ -66,8 +66,8 @@ function AISortableMessage({ msg, onUpdate, onDelete, onToggleRole, onImageUploa
           <div style={{ width: 24, height: 24, fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', background: msg.role === 'user' ? '#f0f0f0' : '#10a37f', color: msg.role === 'user' ? '#000' : '#fff', borderRadius: '50%' }}>
             {msg.role === 'user' ? 'U' : 'AI'}
           </div>
-          <div className="avatar-swap-overlay">
-            <ArrowRightLeft size={10} strokeWidth={3} />
+          <div className="comment-swap-icon">
+            <ArrowRightLeft size={8} strokeWidth={3} />
           </div>
         </div>
         
