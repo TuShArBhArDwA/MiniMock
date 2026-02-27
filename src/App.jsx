@@ -8,6 +8,8 @@ import AIEditor from './components/ai/AIEditor'
 import AIPreview from './components/ai/AIPreview'
 import StoriesEditor from './components/stories/StoriesEditor'
 import StoriesPreview from './components/stories/StoriesPreview'
+import PostsEditor from './components/posts/PostsEditor'
+import PostsPreview from './components/posts/PostsPreview'
 import EmailEditor from './components/email/EmailEditor'
 import EmailPreview from './components/email/EmailPreview'
 import DownloadModal from './components/DownloadModal'
@@ -166,6 +168,36 @@ function App() {
     battery: 100,
   })
 
+  // Posts State
+  const [postPlatform, setPostPlatform] = useState('linkedin')
+  const [postAuthor, setPostAuthor] = useState({
+    name: 'Sarah Johnson',
+    avatar: null,
+    subtitle: 'Product Designer at TechCorp · 3rd+',
+    verified: false,
+  })
+  const [postContent, setPostContent] = useState({
+    caption: `Excited to share that I just completed a major milestone in my career journey! After months of hard work and dedication, our team shipped a product that will impact millions of users.
+
+Key learnings from this experience:
+
+1. Collaboration is everything
+2. User feedback is invaluable
+3. Never stop iterating
+
+Grateful for my amazing team! #ProductDesign #CareerGrowth`,
+    image: null,
+    postedAt: { type: 'months', value: 2 },
+  })
+  const [postMetrics, setPostMetrics] = useState({
+    reactions: '1456',
+    comments: '67',
+    reposts: '34',
+  })
+  const [postAppearance, setPostAppearance] = useState({
+    darkMode: false,
+  })
+
   // Email State
   const [emailSubject, setEmailSubject] = useState('Re: Follow-up on Recent Discussion')
   const [emailAttachment, setEmailAttachment] = useState('file.pdf')
@@ -307,7 +339,9 @@ Use **double asterisks** around text to redact it.`,
       ? `minimock-${aiPlatform}-ai` 
       : activeTab === 'stories'
         ? `minimock-${storyPlatform}-story`
-        : `minimock-email`
+        : activeTab === 'posts'
+          ? `minimock-${postPlatform}-post`
+          : `minimock-email`
 
   return (
     <div className="app" data-theme={appTheme}>
@@ -400,6 +434,35 @@ Use **double asterisks** around text to redact it.`,
               slides={storySlides}
               activeSlide={storyActiveSlide}
               appearance={storyAppearance}
+              onDownload={() => setShowDownloadModal(true)}
+            />
+          </>
+        ) : activeTab === 'posts' ? (
+          <>
+            <div style={{ width: editorWidth, flexShrink: 0 }}>
+              <PostsEditor
+                platform={postPlatform}
+                setPlatform={setPostPlatform}
+                author={postAuthor}
+                setAuthor={setPostAuthor}
+                content={postContent}
+                setContent={setPostContent}
+                metrics={postMetrics}
+                setMetrics={setPostMetrics}
+                appearance={postAppearance}
+                setAppearance={setPostAppearance}
+              />
+            </div>
+            <div className="resize-handle" onMouseDown={handleMouseDown}>
+              <div className="resize-handle-line" />
+            </div>
+            <PostsPreview
+              ref={previewRef}
+              platform={postPlatform}
+              author={postAuthor}
+              content={postContent}
+              metrics={postMetrics}
+              appearance={postAppearance}
               onDownload={() => setShowDownloadModal(true)}
             />
           </>

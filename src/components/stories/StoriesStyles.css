@@ -1,8 +1,9 @@
 /* ===== Stories Preview Styles ===== */
 
-/* Story phone — same base as Chat/AI Chat, no custom min-height */
+/* Story phone — same base as Chat/AI Chat, constrained to parent height */
 .story-preview-phone {
     background: #000;
+    height: 100%;
 }
 
 /* Story content — fills remaining space after status bar */
@@ -12,7 +13,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 590px;
+    min-height: 0;
 }
 
 /* Image container */

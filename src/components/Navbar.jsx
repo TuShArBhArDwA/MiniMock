@@ -3,7 +3,7 @@ import './Navbar.css'
 const navItems = [
   { id: 'chat', label: 'Chat' },
   { id: 'ai', label: 'AI Chat' },
-  { id: 'posts', label: 'Posts', disabled: true },
+  { id: 'posts', label: 'Posts' },
   { id: 'comments', label: 'Comments', disabled: true },
   { id: 'stories', label: 'Stories' },
   { id: 'email', label: 'Email' },
