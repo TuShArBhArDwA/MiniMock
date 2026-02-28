@@ -433,3 +433,73 @@ textarea.input {
   background: var(--accent);
   width: 3px;
 }
+
+/* Mobile View Switcher */
+.mobile-view-switcher {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 100px;
+  padding: 4px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  gap: 4px;
+}
+
+[data-theme="dark"] .mobile-view-switcher {
+  background: #1e1e35;
+}
+
+.view-btn {
+  padding: 8px 18px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.view-btn.active {
+  background: var(--accent);
+  color: white;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .app-main {
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .footer {
+    display: none;
+  }
+
+  .resize-handle {
+    display: none;
+  }
+
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  .visible-mobile {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .visible-mobile {
+    display: none !important;
+  }
+}

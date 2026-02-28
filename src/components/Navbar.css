@@ -43,6 +43,8 @@
     display: flex;
     align-items: center;
     gap: 4px;
+    height: 100%;
+    position: relative;
 }
 
 .navbar-tab {
@@ -59,7 +61,13 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.tab-icon {
+    color: var(--text-muted);
+    transition: color var(--transition);
 }
 
 .navbar-tab:hover:not(.disabled) {
@@ -67,10 +75,29 @@
     background: var(--accent-light);
 }
 
+.navbar-tab:hover:not(.disabled) .tab-icon {
+    color: var(--accent);
+}
+
 .navbar-tab.active {
-    color: var(--text-primary);
-    background: var(--bg-tertiary);
+    color: var(--accent);
+    background: var(--accent-light);
     font-weight: 600;
+}
+
+.navbar-tab.active .tab-icon {
+    color: var(--accent);
+}
+
+.navbar-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    left: 14px;
+    right: 14px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 3px 3px 0 0;
 }
 
 .navbar-tab.disabled {
@@ -91,4 +118,72 @@
 
 .navbar-right {
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 12px;
+        gap: 12px;
+        height: 52px;
+    }
+
+    .navbar-title {
+        display: none;
+    }
+
+    .navbar-tabs {
+        overflow-x: auto;
+        padding-bottom: 0;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        flex: 1;
+    }
+
+    /* Edge fade for scrollable tabs */
+    .navbar-tabs-container {
+        position: relative;
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-tabs-container::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 30px;
+        background: linear-gradient(to right, transparent, var(--bg-secondary));
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .navbar-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .navbar-tab {
+        padding: 8px 12px;
+        font-size: 12px;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 60px;
+    }
+
+    .tab-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .navbar-tab.active::after {
+        bottom: 0;
+        left: 8px;
+        right: 8px;
+        height: 2px;
+    }
 }

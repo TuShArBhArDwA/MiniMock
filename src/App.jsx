@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { toPng } from 'html-to-image'
+import { Edit3, Eye } from 'lucide-react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Editor from './components/Editor'
@@ -116,6 +117,15 @@ const defaultMessages = [
 
 function App() {
   const [activeTab, setActiveTab] = useState('chat')
+  const [mobileView, setMobileView] = useState('edit') // 'edit' or 'preview'
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   // Standard Chat State
   const [platform, setPlatform] = useState('whatsapp')
   const [chatType, setChatType] = useState('dm')
@@ -363,180 +373,235 @@ function App() {
       <div className="app-main">
         {activeTab === 'chat' ? (
           <>
-            <div style={{ width: editorWidth, flexShrink: 0 }}>
-              <Editor
-                platform={platform}
-                setPlatform={setPlatform}
-                chatType={chatType}
-                setChatType={setChatType}
+            {(!isMobile || mobileView === 'edit') && (
+              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+                <Editor
+                  platform={platform}
+                  setPlatform={setPlatform}
+                  chatType={chatType}
+                  setChatType={setChatType}
+                  groupData={groupData}
+                  setGroupData={setGroupData}
+                  people={people}
+                  setPeople={setPeople}
+                  messages={messages}
+                  setMessages={setMessages}
+                  appearance={appearance}
+                  setAppearance={setAppearance}
+                />
+              </div>
+            )}
+            {!isMobile && (
+              <div className="resize-handle" onMouseDown={handleMouseDown}>
+                <div className="resize-handle-line" />
+              </div>
+            )}
+            {(!isMobile || mobileView === 'preview') && (
+              <ChatPreview
+                ref={previewRef}
+                theme={theme}
                 groupData={groupData}
-                setGroupData={setGroupData}
                 people={people}
-                setPeople={setPeople}
                 messages={messages}
-                setMessages={setMessages}
                 appearance={appearance}
-                setAppearance={setAppearance}
+                chatType={chatType}
+                onDownload={() => setShowDownloadModal(true)}
               />
-            </div>
-            <div className="resize-handle" onMouseDown={handleMouseDown}>
-              <div className="resize-handle-line" />
-            </div>
-            <ChatPreview
-              ref={previewRef}
-              theme={theme}
-              groupData={groupData}
-              people={people}
-              messages={messages}
-              appearance={appearance}
-              chatType={chatType}
-              onDownload={() => setShowDownloadModal(true)}
-            />
+            )}
           </>
         ) : activeTab === 'ai' ? (
           <>
-            <div style={{ width: editorWidth, flexShrink: 0 }}>
-              <AIEditor
+            {(!isMobile || mobileView === 'edit') && (
+              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+                <AIEditor
+                  platform={aiPlatform}
+                  setPlatform={setAiPlatform}
+                  aiModel={aiModel}
+                  setAiModel={setAiModel}
+                  aiPerson={aiPerson}
+                  setAiPerson={setAiPerson}
+                  messages={aiMessages}
+                  setMessages={setAiMessages}
+                  appearance={aiAppearance}
+                  setAppearance={setAiAppearance}
+                />
+              </div>
+            )}
+            {!isMobile && (
+              <div className="resize-handle" onMouseDown={handleMouseDown}>
+                <div className="resize-handle-line" />
+              </div>
+            )}
+            {(!isMobile || mobileView === 'preview') && (
+              <AIPreview
+                ref={previewRef}
                 platform={aiPlatform}
-                setPlatform={setAiPlatform}
-                aiModel={aiModel}
-                setAiModel={setAiModel}
-                aiPerson={aiPerson}
-                setAiPerson={setAiPerson}
+                model={aiModel}
+                person={aiPerson}
                 messages={aiMessages}
-                setMessages={setAiMessages}
                 appearance={aiAppearance}
-                setAppearance={setAiAppearance}
+                onDownload={() => setShowDownloadModal(true)}
               />
-            </div>
-            <div className="resize-handle" onMouseDown={handleMouseDown}>
-              <div className="resize-handle-line" />
-            </div>
-            <AIPreview
-              ref={previewRef}
-              platform={aiPlatform}
-              model={aiModel}
-              person={aiPerson}
-              messages={aiMessages}
-              appearance={aiAppearance}
-              onDownload={() => setShowDownloadModal(true)}
-            />
+            )}
           </>
         ) : activeTab === 'stories' ? (
           <>
-            <div style={{ width: editorWidth, flexShrink: 0 }}>
-              <StoriesEditor
+            {(!isMobile || mobileView === 'edit') && (
+              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+                <StoriesEditor
+                  platform={storyPlatform}
+                  setPlatform={setStoryPlatform}
+                  profile={storyProfile}
+                  setProfile={setStoryProfile}
+                  slides={storySlides}
+                  setSlides={setStorySlides}
+                  activeSlide={storyActiveSlide}
+                  setActiveSlide={setStoryActiveSlide}
+                  appearance={storyAppearance}
+                  setAppearance={setStoryAppearance}
+                />
+              </div>
+            )}
+            {!isMobile && (
+              <div className="resize-handle" onMouseDown={handleMouseDown}>
+                <div className="resize-handle-line" />
+              </div>
+            )}
+            {(!isMobile || mobileView === 'preview') && (
+              <StoriesPreview
+                ref={previewRef}
                 platform={storyPlatform}
-                setPlatform={setStoryPlatform}
                 profile={storyProfile}
-                setProfile={setStoryProfile}
                 slides={storySlides}
-                setSlides={setStorySlides}
                 activeSlide={storyActiveSlide}
-                setActiveSlide={setStoryActiveSlide}
                 appearance={storyAppearance}
-                setAppearance={setStoryAppearance}
+                onDownload={() => setShowDownloadModal(true)}
               />
-            </div>
-            <div className="resize-handle" onMouseDown={handleMouseDown}>
-              <div className="resize-handle-line" />
-            </div>
-            <StoriesPreview
-              ref={previewRef}
-              platform={storyPlatform}
-              profile={storyProfile}
-              slides={storySlides}
-              activeSlide={storyActiveSlide}
-              appearance={storyAppearance}
-              onDownload={() => setShowDownloadModal(true)}
-            />
+            )}
           </>
         ) : activeTab === 'posts' ? (
           <>
-            <div style={{ width: editorWidth, flexShrink: 0 }}>
-              <PostsEditor
+            {(!isMobile || mobileView === 'edit') && (
+              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+                <PostsEditor
+                  platform={postPlatform}
+                  setPlatform={setPostPlatform}
+                  author={postAuthor}
+                  setAuthor={setPostAuthor}
+                  content={postContent}
+                  setContent={setPostContent}
+                  metrics={postMetrics}
+                  setMetrics={setPostMetrics}
+                  appearance={postAppearance}
+                  setAppearance={setPostAppearance}
+                />
+              </div>
+            )}
+            {!isMobile && (
+              <div className="resize-handle" onMouseDown={handleMouseDown}>
+                <div className="resize-handle-line" />
+              </div>
+            )}
+            {(!isMobile || mobileView === 'preview') && (
+              <PostsPreview
+                ref={previewRef}
                 platform={postPlatform}
-                setPlatform={setPostPlatform}
                 author={postAuthor}
-                setAuthor={setPostAuthor}
                 content={postContent}
-                setContent={setPostContent}
                 metrics={postMetrics}
-                setMetrics={setPostMetrics}
                 appearance={postAppearance}
-                setAppearance={setPostAppearance}
+                onDownload={() => setShowDownloadModal(true)}
               />
-            </div>
-            <div className="resize-handle" onMouseDown={handleMouseDown}>
-              <div className="resize-handle-line" />
-            </div>
-            <PostsPreview
-              ref={previewRef}
-              platform={postPlatform}
-              author={postAuthor}
-              content={postContent}
-              metrics={postMetrics}
-              appearance={postAppearance}
-              onDownload={() => setShowDownloadModal(true)}
-            />
+            )}
           </>
         ) : activeTab === 'comments' ? (
           <>
-            <div style={{ width: editorWidth, flexShrink: 0 }}>
-              <CommentsEditor
+            {(!isMobile || mobileView === 'edit') && (
+              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+                <CommentsEditor
+                  platform={commentPlatform}
+                  setPlatform={setCommentPlatform}
+                  creator={commentCreator}
+                  setCreator={setCommentCreator}
+                  commenters={commentCommenters}
+                  setCommenters={setCommentCommenters}
+                  comments={commentComments}
+                  setComments={setCommentComments}
+                  appearance={commentAppearance}
+                  setAppearance={setCommentAppearance}
+                />
+              </div>
+            )}
+            {!isMobile && (
+              <div className="resize-handle" onMouseDown={handleMouseDown}>
+                <div className="resize-handle-line" />
+              </div>
+            )}
+            {(!isMobile || mobileView === 'preview') && (
+              <CommentsPreview
+                ref={previewRef}
                 platform={commentPlatform}
-                setPlatform={setCommentPlatform}
                 creator={commentCreator}
-                setCreator={setCommentCreator}
                 commenters={commentCommenters}
-                setCommenters={setCommentCommenters}
                 comments={commentComments}
-                setComments={setCommentComments}
                 appearance={commentAppearance}
-                setAppearance={setCommentAppearance}
+                onDownload={() => setShowDownloadModal(true)}
               />
-            </div>
-            <div className="resize-handle" onMouseDown={handleMouseDown}>
-              <div className="resize-handle-line" />
-            </div>
-            <CommentsPreview
-              ref={previewRef}
-              platform={commentPlatform}
-              creator={commentCreator}
-              commenters={commentCommenters}
-              comments={commentComments}
-              appearance={commentAppearance}
-              onDownload={() => setShowDownloadModal(true)}
-            />
+            )}
           </>
         ) : activeTab === 'email' ? (
           <>
-            <div style={{ width: editorWidth, flexShrink: 0 }}>
-              <EmailEditor
+            {(!isMobile || mobileView === 'edit') && (
+              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+                <EmailEditor
+                  subject={emailSubject}
+                  setSubject={setEmailSubject}
+                  attachment={emailAttachment}
+                  setAttachment={setEmailAttachment}
+                  participants={emailParticipants}
+                  setParticipants={setEmailParticipants}
+                  emails={emailThread}
+                  setEmails={setEmailThread}
+                />
+              </div>
+            )}
+            {!isMobile && (
+              <div className="resize-handle" onMouseDown={handleMouseDown}>
+                <div className="resize-handle-line" />
+              </div>
+            )}
+            {(!isMobile || mobileView === 'preview') && (
+              <EmailPreview
+                ref={previewRef}
                 subject={emailSubject}
-                setSubject={setEmailSubject}
                 attachment={emailAttachment}
-                setAttachment={setEmailAttachment}
                 participants={emailParticipants}
-                setParticipants={setEmailParticipants}
                 emails={emailThread}
-                setEmails={setEmailThread}
+                onDownload={() => setShowDownloadModal(true)}
               />
-            </div>
-            <div className="resize-handle" onMouseDown={handleMouseDown}>
-              <div className="resize-handle-line" />
-            </div>
-            <EmailPreview
-              ref={previewRef}
-              subject={emailSubject}
-              attachment={emailAttachment}
-              participants={emailParticipants}
-              emails={emailThread}
-              onDownload={() => setShowDownloadModal(true)}
-            />
+            )}
           </>
         ) : null}
       </div>
+
+      {isMobile && (
+        <div className="mobile-view-switcher">
+          <button 
+            className={`view-btn ${mobileView === 'edit' ? 'active' : ''}`}
+            onClick={() => setMobileView('edit')}
+          >
+            <Edit3 size={16} />
+            Edit
+          </button>
+          <button 
+            className={`view-btn ${mobileView === 'preview' ? 'active' : ''}`}
+            onClick={() => setMobileView('preview')}
+          >
+            <Eye size={16} />
+            Preview
+          </button>
+        </div>
+      )}
       <Footer />
       <DownloadModal
         isOpen={showDownloadModal}
