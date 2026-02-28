@@ -13,6 +13,12 @@
     overflow-y: auto;
 }
 
+@media (max-width: 768px) {
+    .post-preview-container {
+        padding-bottom: 220px;
+    }
+}
+
 .post-preview-wrapper {
     width: 100%;
     max-width: 520px;

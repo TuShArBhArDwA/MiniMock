@@ -374,7 +374,14 @@ function App() {
         {activeTab === 'chat' ? (
           <>
             {(!isMobile || mobileView === 'edit') && (
-              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+              <div style={{ 
+                width: isMobile ? '100%' : editorWidth, 
+                flexShrink: isMobile ? 1 : 0,
+                flexGrow: isMobile ? 1 : 0,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0
+              }}>
                 <Editor
                   platform={platform}
                   setPlatform={setPlatform}
@@ -412,7 +419,14 @@ function App() {
         ) : activeTab === 'ai' ? (
           <>
             {(!isMobile || mobileView === 'edit') && (
-              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+              <div style={{ 
+                width: isMobile ? '100%' : editorWidth, 
+                flexShrink: isMobile ? 1 : 0,
+                flexGrow: isMobile ? 1 : 0,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0
+              }}>
                 <AIEditor
                   platform={aiPlatform}
                   setPlatform={setAiPlatform}
@@ -447,7 +461,14 @@ function App() {
         ) : activeTab === 'stories' ? (
           <>
             {(!isMobile || mobileView === 'edit') && (
-              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+              <div style={{ 
+                width: isMobile ? '100%' : editorWidth, 
+                flexShrink: isMobile ? 1 : 0,
+                flexGrow: isMobile ? 1 : 0,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0
+              }}>
                 <StoriesEditor
                   platform={storyPlatform}
                   setPlatform={setStoryPlatform}
@@ -482,7 +503,14 @@ function App() {
         ) : activeTab === 'posts' ? (
           <>
             {(!isMobile || mobileView === 'edit') && (
-              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+              <div style={{ 
+                width: isMobile ? '100%' : editorWidth, 
+                flexShrink: isMobile ? 1 : 0,
+                flexGrow: isMobile ? 1 : 0,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0
+              }}>
                 <PostsEditor
                   platform={postPlatform}
                   setPlatform={setPostPlatform}
@@ -517,7 +545,14 @@ function App() {
         ) : activeTab === 'comments' ? (
           <>
             {(!isMobile || mobileView === 'edit') && (
-              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+              <div style={{ 
+                width: isMobile ? '100%' : editorWidth, 
+                flexShrink: isMobile ? 1 : 0,
+                flexGrow: isMobile ? 1 : 0,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0
+              }}>
                 <CommentsEditor
                   platform={commentPlatform}
                   setPlatform={setCommentPlatform}
@@ -552,7 +587,14 @@ function App() {
         ) : activeTab === 'email' ? (
           <>
             {(!isMobile || mobileView === 'edit') && (
-              <div style={{ width: isMobile ? '100%' : editorWidth, flexShrink: 0 }}>
+              <div style={{ 
+                width: isMobile ? '100%' : editorWidth, 
+                flexShrink: isMobile ? 1 : 0,
+                flexGrow: isMobile ? 1 : 0,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0
+              }}>
                 <EmailEditor
                   subject={emailSubject}
                   setSubject={setEmailSubject}

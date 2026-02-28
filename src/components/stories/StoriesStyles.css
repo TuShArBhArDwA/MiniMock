@@ -264,6 +264,16 @@
     z-index: 20;
 }
 
+@media (max-width: 768px) {
+    .story-footer {
+        padding-bottom: 30px;
+    }
+
+    .story-image-foreground {
+        padding-bottom: 120px;
+    }
+}
+
 .story-reply-input {
     flex: 1;
     height: 40px;

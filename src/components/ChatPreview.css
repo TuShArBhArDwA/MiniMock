@@ -68,6 +68,12 @@
     /* Chrome, Safari, Opera */
 }
 
+@media (max-width: 768px) {
+    .preview-messages {
+        padding-bottom: 100px;
+    }
+}
+
 .btn-download {
     position: absolute;
     bottom: 24px;

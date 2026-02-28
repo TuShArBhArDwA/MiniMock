@@ -180,6 +180,12 @@
     /* IE and Edge */
 }
 
+@media (max-width: 768px) {
+    .email-preview-container {
+        padding: 20px 16px 120px 16px;
+    }
+}
+
 .email-preview-container::-webkit-scrollbar {
     display: none;
     /* Chrome, Safari, Opera */

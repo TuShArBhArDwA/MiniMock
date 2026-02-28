@@ -437,7 +437,8 @@ textarea.input {
 /* Mobile View Switcher */
 .mobile-view-switcher {
   position: fixed;
-  bottom: 20px;
+  bottom: 70px;
+  /* Lifted above the 50px footer */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -482,7 +483,29 @@ textarea.input {
   }
 
   .footer {
+    display: flex;
+    height: 50px;
+    padding: 0 16px;
+  }
+
+  .footer-tagline {
     display: none;
+  }
+
+  .preview-container,
+  .preview-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 16px;
+    padding-bottom: 220px;
+    /* Increased to account for raised switcher + circular button + footer */
+  }
+
+  .editor-scroll {
+    padding-bottom: 160px;
+    /* Space for raised view switcher + footer */
   }
 
   .resize-handle {
@@ -495,6 +518,47 @@ textarea.input {
 
   .visible-mobile {
     display: flex !important;
+  }
+
+  .btn-download,
+  .download-btn {
+    position: fixed !important;
+    bottom: 135px !important;
+    /* Raised further above the switcher (70px) and footer (50px) */
+    right: 20px !important;
+    top: auto !important;
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: var(--accent) !important;
+    color: white !important;
+    z-index: 1100 !important;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4) !important;
+    border: none !important;
+  }
+
+  .btn-download span,
+  .download-btn span,
+  .btn-download .tab-label,
+  .download-btn .tab-label {
+    display: none !important;
+  }
+
+  /* Hide text if it's direct child */
+  .btn-download,
+  .download-btn {
+    font-size: 0 !important;
+  }
+
+  .btn-download svg,
+  .download-btn svg {
+    width: 24px !important;
+    height: 24px !important;
+    margin: 0 !important;
   }
 }
 
