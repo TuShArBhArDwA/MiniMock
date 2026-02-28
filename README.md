@@ -6,7 +6,8 @@
 
 MiniMock is a comprehensive, web-based tool designed for creators, digital marketers, and developers who require high-fidelity, pixel-perfect social media and messaging mockups. The application operates entirely client-side, ensuring total privacy with zero data storage and watermark-free exports.
 
-<img width="1919" alt="MiniMock Dashboard Preview" src="https://github.com/user-attachments/assets/4aba082a-c0aa-4a74-b590-c6b43fb7914f" />
+<img width="1918" height="968" alt="image" src="https://github.com/user-attachments/assets/01ea6737-cbb9-47a3-8a1c-afe4bb731e81" />
+
 
 ---
 
@@ -85,10 +86,25 @@ npm run dev
 
 ---
 
-## License
+## Sponsor
 
-This project is licensed under the MIT License. Developed and maintained by TuShArBhArDwA (Mini Anon).
+If you find this helpful, consider supporting me:
+
+- **Sponsor Me:** [Buy Me a Coffee!](https://github.com/sponsors/TuShArBhArDwA)
 
 ---
 
-**[Try MiniMock](https://github.com/TuShArBhArDwA/MiniMock)** | **[Submit Feedback](https://github.com/TuShArBhArDwA/MiniMock/issues)**
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Connect with me
+
+If you’d like to connect, feel free to reach out — [Click here](https://minianonlink.vercel.app/tusharbhardwaj)
+
+
+---
+
+**[Try MiniMock](https://minianonlink.vercel.app/)** | **[Submit Feedback](https://github.com/TuShArBhArDwA/MiniMock/issues)**
