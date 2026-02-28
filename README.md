@@ -1,62 +1,94 @@
-# MiniMock
+# MiniMock: The Professional Chat Mockup Suite
 
+[![Privacy](https://img.shields.io/badge/Privacy-100%25-success?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/TuShArBhArDwA/MiniMock)
+[![Watermark](https://img.shields.io/badge/Watermark-None-blue?style=for-the-badge)](https://github.com/TuShArBhArDwA/MiniMock)
+[![Built With](https://img.shields.io/badge/Built%20With-React%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react)](https://github.com/TuShArBhArDwA/MiniMock)
 
-<img width="1919" height="969" alt="image" src="https://github.com/user-attachments/assets/4aba082a-c0aa-4a74-b590-c6b43fb7914f" />
+MiniMock is a comprehensive, web-based tool designed for creators, digital marketers, and developers who require high-fidelity, pixel-perfect social media and messaging mockups. The application operates entirely client-side, ensuring total privacy with zero data storage and watermark-free exports.
 
+<img width="1919" alt="MiniMock Dashboard Preview" src="https://github.com/user-attachments/assets/4aba082a-c0aa-4a74-b590-c6b43fb7914f" />
 
+---
 
-> **Instant chat mockups. No data saved. No watermark. Easy to use.**
+## Technical Excellence and Privacy
 
-MiniMock is a fast, web-based generator that allows you to create pixel-perfect, fake chat screenshots for various popular messaging platforms. It features a live, responsive preview—what you configure on the left is exactly what you get on the right. 
+Unlike traditional mockup generators that rely on bulky image editing software or ad-supported web interfaces, MiniMock offers a streamlined, professional experience:
 
-Perfect for testing layouts, designing memes, or mocking up conversations for social media!
+- **Pixel-Perfect Realism**: Every platform is meticulously reverse-engineered to match authentic UI elements, including specific fonts, message tail geometry, and spacing.
+- **Privacy by Design**: All data processing and image rendering occur locally in the user's browser. No conversations are uploaded to any server.
+- **Mobile-First Experience**: The interface is fully responsive, featuring a native-app feel for editing and previewing mockups on mobile devices.
+- **Watermark-Free Exports**: Generate and download professional-grade PNG images ready for presentations, portfolios, or content creation.
 
+---
 
-## Features
+## Comprehensive Service Suite
 
-- **10+ Supported Platforms**: WhatsApp, Instagram, Discord, X (Twitter), Microsoft Teams, Slack, Snapchat, Telegram, Reddit, and LinkedIn.
-- **Pixel-Perfect Realism**: Automatic adaptation to each platform's unique UI, including tail shapes, headers, footers, status bars, and font styles.
-- **Direct Message & Group Chat**: Dynamic layouts shift realistically depending on whether you're configuring a 1-on-1 DM or a larger group chat.
-- **Drag & Drop Messages**: Easily reorder conversation flows.
-- **Customize Everything**: Add images to messages, change timestamps, mark read receipts (Delivered/Read/Sent), and swap senders with a click.
-- **Appearance Settings**: Toggle dark mode, transparent backgrounds, phone frames, the iOS status bar, and time formats natively per-platform.
-- **Export to PNG**: Instantly download high-quality, watermark-free images of your mockups.
-- **Privacy First**: Everything is processed locally in your browser. No data is stored, and no backend is required.
+MiniMock provides dedicated environments for a wide range of digital platforms and content formats.
 
-## Built With
+### 1. Messaging and Chat Mockups
+Create realistic 1-to-1 or group conversations with full control over message status (Sent, Delivered, Read).
+- **Supported Platforms**: WhatsApp, Instagram DM, Discord, Telegram, Snapchat, and Threads.
+- **Advanced Features**: Sender swapping, dynamic read receipts, and image attachments with realistic thumbnails.
 
-- **React 18** + **Vite**
-- **Vanilla CSS** (No bloated UI frameworks)
-- **Lucide React** (Icons)
-- **dnd-kit** (Drag and drop interactions)
-- **html-to-image** (High-fidelity PNG exporting)
+### 2. Social Media Posts
+Design complete social media posts to preview content strategy or create marketing assets.
+- **Supported Platforms**: X (Twitter), Facebook, Instagram, LinkedIn, Pinterest, and Threads.
+- **Customizable Metrics**: Edit like counts, repost numbers, and engagement stats to fit any scenario.
 
-## Getting Started
+### 3. Interactive Comments and Threads
+Simulate complex conversation threads with platform-accurate nesting and styling.
+- **Supported Platforms**: YouTube, Reddit, Instagram, and LinkedIn.
+- **Nesting Support**: Full support for multi-level replies and indentation patterns specific to each platform.
 
-To run MiniMock locally:
+### 4. Advanced Story Editor
+Build immersive story mockups with authentic layouts and overlays.
+- **Supported Platforms**: Instagram Stories and WhatsApp Status.
+- **Creative Tools**: Background blurring for non-9:16 images, interactive music tags, location stickers, and customizable captions.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/TuShArBhArDwA/MiniMock.git
-   ```
+### 5. AI Chat Mockups
+Generate realistic screenshots of AI-human interactions.
+- **Styling Options**: Toggle between distinct design languages for ChatGPT and Claude.
+- **Profile Customization**: Set custom avatars and names for both the AI and the user.
 
-2. Navigate into the project directory:
-   ```bash
-   cd minimock
-   ```
+### 6. Professional Email Previews
+A modern tool for previewing email marketing layouts or professional communication.
+- **Interface**: Clean, responsive layout with support for subject lines, sender details, and full body content.
 
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
+---
 
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
+## Global Customization Controls
 
-5. Open your browser to `http://localhost:5173` and start creating mockups!
+MiniMock offers a robust set of appearance settings that apply across all preview modes:
+
+- **Dark Mode**: Toggle platform-specific dark themes natively.
+- **Phone Frames**: High-quality iPhone frames for realistic presentation.
+- **Transparent Backgrounds**: Export mockups as transparent PNGs for seamless integration into graphic designs.
+- **iOS Status Bar**: Fully customizable status bars, including time, battery levels, and connectivity icons.
+- **Drag-and-Drop Editor**: Reorder messages or comments instantly using a fluid drag-and-drop interface.
+
+---
+
+## Getting Started for Developers
+
+MiniMock is built with a lightweight, performance-focused tech stack utilizing React 18 and Vite.
+
+```bash
+# Clone the repository
+git clone https://github.com/TuShArBhArDwA/MiniMock.git
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. Developed and maintained by TuShArBhArDwA (Mini Anon).
+
+---
+
+**[Try MiniMock](https://github.com/TuShArBhArDwA/MiniMock)** | **[Submit Feedback](https://github.com/TuShArBhArDwA/MiniMock/issues)**
