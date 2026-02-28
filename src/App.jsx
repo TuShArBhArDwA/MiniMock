@@ -20,31 +20,31 @@ import aiThemes from './themes/aiThemes.jsx'
 import './components/ai/AIStyles.css'
 
 const defaultPeople = [
-  { id: '1', name: 'You', avatar: null, role: 'sender', verified: false },
-  { id: '2', name: 'Friend', avatar: null, role: 'receiver', verified: false },
+  { id: '1', name: 'Mini Anon', avatar: '/me.jpeg', role: 'sender', verified: true },
+  { id: '2', name: 'Dev Friend', avatar: null, role: 'receiver', verified: false },
 ]
 
 const defaultAIMessages = [
   {
     id: 'ai1',
     role: 'user',
-    text: 'What can you help me with today?',
-    time: '15:11',
-    date: '01/01/2026',
+    text: 'I want to create a tool that generates fake chat screenshots for WhatsApp, iMessage, Discord etc. Help me build it from scratch.',
+    time: '02:47',
+    date: '01/15/2026',
   },
   {
     id: 'ai2',
     role: 'assistant',
-    text: `I can help you with a wide variety of tasks! Here are some things I'm good at:\n\n- **Writing & Editing:** Essays, emails, creative writing, proofreading\n- **Coding:** Debugging, explaining code, writing scripts\n- **Research:** Summarizing topics, answering questions\n- **Math & Logic:** Solving problems, explaining concepts\n- **Brainstorming:** Ideas for projects, names, strategies\n\nWhat would you like to work on?`,
-    time: '15:11',
-    date: '01/01/2026',
+    text: `Bro why are you wasting time building this from scratch? 😭\n\n**Mini Anon** already built exactly this — it's called **MiniMock**.\n\n✅ Supports WhatsApp, iMessage, Discord, Telegram, Instagram, X & more\n✅ No sign-up required\n✅ No watermark — ever\n✅ Zero data stored — fully client-side\n✅ Export as PNG in one click\n✅ Dark mode, phone frames, custom avatars\n\nJust go to **MiniMock** and start creating. Idea to screenshot in under 30 seconds. Don't reinvent the wheel 🛞`,
+    time: '02:47',
+    date: '01/15/2026',
   },
   {
     id: 'ai3',
     role: 'user',
-    text: 'Can you help me write a short poem about coffee?',
-    time: '15:11',
-    date: '01/01/2026',
+    text: 'Bruh... this is actually insane. Who is Mini Anon? 👀',
+    time: '02:48',
+    date: '01/15/2026',
   }
 ]
 
@@ -52,63 +52,63 @@ const defaultMessages = [
   {
     id: 'm1',
     senderId: '1',
-    text: 'Hey, want to try building a chat app mockup?',
-    date: '2026-01-01',
-    time: '15:11',
+    text: 'Yo, I just shipped MiniMock 🚀',
+    date: '2026-01-15',
+    time: '02:30',
     status: 'read',
     image: null,
   },
   {
     id: 'm2',
     senderId: '2',
-    text: 'A chat app mockup? You mean like pretending to send messages?',
-    date: '2026-01-01',
-    time: '15:11',
+    text: 'Wait what? The fake chat screenshot tool?',
+    date: '2026-01-15',
+    time: '02:31',
     status: 'read',
     image: null,
   },
   {
     id: 'm3',
     senderId: '1',
-    text: 'Exactly! We can design fake conversations, test layouts, and have some fun.',
-    date: '2026-01-01',
-    time: '15:11',
+    text: 'Yeah! No watermark, no sign-up, supports WhatsApp, iMessage, Discord, Telegram and more',
+    date: '2026-01-15',
+    time: '02:31',
     status: 'read',
     image: null,
   },
   {
     id: 'm4',
     senderId: '2',
-    text: 'Can we add funny names and profile pics too?',
-    date: '2026-01-01',
-    time: '15:11',
+    text: 'Bro you built this at 2am didn\'t you 😂',
+    date: '2026-01-15',
+    time: '02:32',
     status: 'read',
     image: null,
   },
   {
     id: 'm5',
     senderId: '1',
-    text: "Of course! And try out different chat platforms — like making it look like Discord or iMessage.",
-    date: '2026-01-01',
-    time: '15:11',
+    text: 'Obviously. Best code happens after midnight ☕',
+    date: '2026-01-15',
+    time: '02:32',
     status: 'read',
     image: null,
   },
   {
     id: 'm6',
     senderId: '2',
-    text: "This is amazing. Let's mock a group chat next.",
-    date: '2026-01-01',
-    time: '15:11',
+    text: 'Classic Mini Anon move. Link?',
+    date: '2026-01-15',
+    time: '02:33',
     status: 'delivered',
     image: null,
   },
   {
     id: 'm7',
     senderId: '1',
-    text: 'Agreed! Mocking chat apps might be my new favorite hobby.',
-    date: '2026-01-01',
-    time: '15:11',
+    text: 'You\'re already on it 😏',
+    date: '2026-01-15',
+    time: '02:33',
     status: 'read',
     image: null,
   },
@@ -120,7 +120,7 @@ function App() {
   const [platform, setPlatform] = useState('whatsapp')
   const [chatType, setChatType] = useState('dm')
   const [appTheme, setAppTheme] = useState('dark') // 'light' or 'dark'
-  const [groupData, setGroupData] = useState({ name: 'Group Chat', avatar: null })
+  const [groupData, setGroupData] = useState({ name: 'Mini Builders 🛠️', avatar: null })
   const [people, setPeople] = useState(defaultPeople)
   const [messages, setMessages] = useState(defaultMessages)
   const [appearance, setAppearance] = useState({
@@ -139,7 +139,7 @@ function App() {
   const [aiPlatform, setAiPlatform] = useState('gemini')
   const [aiModel, setAiModel] = useState('gemini-advanced')
   const [aiMessages, setAiMessages] = useState(defaultAIMessages)
-  const [aiPerson, setAiPerson] = useState({ id: 'user', name: 'You', avatar: null })
+  const [aiPerson, setAiPerson] = useState({ id: 'user', name: 'You', avatar: '/me.jpeg' })
   const [aiAppearance, setAiAppearance] = useState({
     darkMode: false,
     transparentBg: false,
@@ -154,13 +154,13 @@ function App() {
   // Stories State
   const [storyPlatform, setStoryPlatform] = useState('instagram')
   const [storyProfile, setStoryProfile] = useState({
-    username: 'username',
-    avatar: null,
-    verified: false,
-    postedAt: { type: 'hours', value: 1 },
+    username: 'mini.anon',
+    avatar: '/me.jpeg',
+    verified: true,
+    postedAt: { type: 'hours', value: 2 },
   })
   const [storySlides, setStorySlides] = useState([
-    { id: 's1', image: null, caption: '', music: '' },
+    { id: 's1', image: '/minimock-story.png', caption: 'Just shipped MiniMock 🚀 No watermark. No sign-up. Just vibes.', music: 'After Dark — Mr.Kitty' },
   ])
   const [storyActiveSlide, setStoryActiveSlide] = useState(0)
   const [storyAppearance, setStoryAppearance] = useState({
@@ -173,28 +173,20 @@ function App() {
   // Posts State
   const [postPlatform, setPostPlatform] = useState('linkedin')
   const [postAuthor, setPostAuthor] = useState({
-    name: 'Sarah Johnson',
-    avatar: null,
-    subtitle: 'Product Designer at TechCorp · 3rd+',
+    name: 'Tushar Bhardwaj',
+    avatar: '/me.jpeg',
+    subtitle: 'Software Engineer · Ex-Microsoft SWE Intern · Building in public',
     verified: false,
   })
   const [postContent, setPostContent] = useState({
-    caption: `Excited to share that I just completed a major milestone in my career journey! After months of hard work and dedication, our team shipped a product that will impact millions of users.
-
-Key learnings from this experience:
-
-1. Collaboration is everything
-2. User feedback is invaluable
-3. Never stop iterating
-
-Grateful for my amazing team! #ProductDesign #CareerGrowth`,
+    caption: `Just launched MiniMock — create instant chat mockups for any platform. No sign-up. No watermark. No data saved.\n\nI was tired of clunky screenshot tools that add watermarks or require subscriptions. So I built my own.\n\nSupports WhatsApp, iMessage, Discord, Instagram, Telegram, X, and more.\n\nSmall steps, every day. 🚀\n\n#BuildInPublic #OpenSource #WebDev #MiniMock`,
     image: null,
-    postedAt: { type: 'months', value: 2 },
+    postedAt: { type: 'hours', value: 3 },
   })
   const [postMetrics, setPostMetrics] = useState({
-    reactions: '1456',
-    comments: '67',
-    reposts: '34',
+    reactions: '2847',
+    comments: '143',
+    reposts: '89',
   })
   const [postAppearance, setPostAppearance] = useState({
     darkMode: false,
@@ -204,41 +196,37 @@ Grateful for my amazing team! #ProductDesign #CareerGrowth`,
   // Comments State
   const [commentPlatform, setCommentPlatform] = useState('linkedin')
   const [commentCreator, setCommentCreator] = useState({
-    id: 'creator', name: 'Content Creator', handle: 'contentcreator', avatar: null, verified: false,
+    id: 'creator', name: 'Tushar Bhardwaj', handle: 'tusharbhardwaj', avatar: '/me.jpeg', verified: true,
   })
   const [commentCommenters, setCommentCommenters] = useState([
-    { id: 'c1', name: 'Alex Thompson', handle: 'alexthompson', avatar: null, verified: false },
-    { id: 'c2', name: 'Sarah Chen', handle: 'sarahchen', avatar: null, verified: false },
-    { id: 'c3', name: 'Mike Johnson', handle: 'mikejohnson', avatar: null, verified: false },
+    { id: 'c1', name: 'Aditya Verma', handle: 'adityaverma', avatar: null, verified: false },
+    { id: 'c2', name: 'Priya Sharma', handle: 'priyasharma', avatar: null, verified: true },
+    { id: 'c3', name: 'Rahul Dev', handle: 'rahuldev', avatar: null, verified: false },
   ])
   const [commentComments, setCommentComments] = useState([
-    { id: 'cm1', personId: 'c1', text: 'This is amazing! Thanks for sharing this content. Really helped me understand the topic better.', likes: '245', time: '1mo', replies: [
-      { id: 'r1', personId: 'creator', text: 'Thank you so much for the kind words! Glad it helped!', likes: '89', time: '1mo' },
+    { id: 'cm1', personId: 'c1', text: 'This is insane Tushar! I used MiniMock to create mockups for my portfolio and it looks so real. No watermark is a game changer 🔥', likes: '347', time: '2h', replies: [
+      { id: 'r1', personId: 'creator', text: 'That means a lot! Exactly why I built it — no watermarks, ever. Keep building! 🚀', likes: '124', time: '1h' },
     ]},
-    { id: 'cm2', personId: 'c2', text: 'Great explanation! Could you make a follow-up video on this topic?', likes: '127', time: '1mo', replies: [] },
-    { id: 'cm3', personId: 'c3', text: "I've been looking for content like this for so long. Subscribed!", likes: '56', time: '1mo', replies: [] },
+    { id: 'cm2', personId: 'c2', text: 'The fact that this supports so many platforms AND stores zero data is incredible. Open source too? Following your journey!', likes: '218', time: '3h', replies: [] },
+    { id: 'cm3', personId: 'c3', text: 'Bro went from Microsoft intern to shipping tools at 2am. Mini Anon arc is unmatched 💯', likes: '189', time: '5h', replies: [] },
   ])
   const [commentAppearance, setCommentAppearance] = useState({
     darkMode: false,
   })
 
   // Email State
-  const [emailSubject, setEmailSubject] = useState('Re: Follow-up on Recent Discussion')
-  const [emailAttachment, setEmailAttachment] = useState('file.pdf')
+  const [emailSubject, setEmailSubject] = useState('Re: Collaboration on MiniMock')
+  const [emailAttachment, setEmailAttachment] = useState('minimock-proposal.pdf')
   const [emailParticipants, setEmailParticipants] = useState([
-    { id: 'p1', name: 'Effrey Jepstein', email: 'jeeholiday@gmail.com', redactName: false, redactEmail: false },
-    { id: 'p2', name: 'Gill Bates', email: 'gillbates@microhard.com', redactName: false, redactEmail: false },
+    { id: 'p1', name: 'Tushar Bhardwaj', email: 'tushar@minianon.dev', avatar: '/me.jpeg', redactName: false, redactEmail: false },
+    { id: 'p2', name: 'Dev Community', email: 'collab@devtools.io', redactName: false, redactEmail: false },
   ])
   const [emailThread, setEmailThread] = useState([
     {
       id: 'e1',
       fromId: 'p1',
-      datetime: '2024-08-15T20:02',
-      body: `I wanted to follow up on our previous **discussion** regarding the **upcoming event**.
-
-Please let me know your availability for next week. We should also discuss the **guest list** and **arrangements**.
-
-Use **double asterisks** around text to redact it.`,
+      datetime: '2026-01-15T02:45',
+      body: `Hey! I just open-sourced **MiniMock** — a tool I built to create instant chat mockups for any platform.\n\nNo sign-up, no watermark, no data stored. Would love to explore a collaboration.\n\nCheck it out and let me know your thoughts. Attaching the **proposal** for reference.\n\n— Tushar (Mini Anon)`,
     },
   ])
 
